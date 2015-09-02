@@ -8,7 +8,7 @@ import Application from "./application";
 import NotFoundPage from "./pages/notfound";
 import NullPage from "./pages/null";
 
-import RankingsPage from "./pages/rankings";
+import RankingsPage from "./pages/Rankings";
 
 const container = document.getElementById("react-app");
 

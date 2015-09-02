@@ -2,10 +2,10 @@ import React from 'react';
 import Radium from 'radium';
 import _ from 'lodash';
 
-import MDHQBase, {autobind, NOOP} from 'mdhq-components/base/Base';
+import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
-import Icon from 'node_modules/delphi-components/delphi_components/icon/Icon.jsx';
+import Icon from 'delphi/icon/Icon.jsx';
 
 require('./radiobutton.less');
 
@@ -34,8 +34,9 @@ export default class MDHQRadiobutton extends MDHQBase {
             name={this.props.name}
             onChange={(e)=> this.props.onChange(e)}
             style={STYLES.input}
-            type="radio"/>
-          
+            type="radio"
+            value={this.props.value}/>
+
           <div style={RadiobuttonCombined}>
             <i className={iconClass}
                dangerouslySetInnerHTML = {setHtml()} />
@@ -53,7 +54,8 @@ MDHQRadiobutton.propTypes = {
   'disabled' : React.PropTypes.bool,
   'label'    : React.PropTypes.node,
   'name'     : React.PropTypes.string,
-  'onChange' : React.PropTypes.func
+  'onChange' : React.PropTypes.func,
+  'value'    : React.PropTypes.string
 };
 
 MDHQRadiobutton.getDefaultProps = {
@@ -61,7 +63,8 @@ MDHQRadiobutton.getDefaultProps = {
   'disabled' : false,
   'label'    : '',
   'name'     : '',
-  'onChange' : NOOP
+  'onChange' : NOOP,
+  'value'    : ''
 };
 
 const STYLES = {
@@ -96,7 +99,7 @@ const STYLES = {
       border      : `1px solid ${colors.accent.primary[500]}`,
     },
     label : {
-      fontSize    : '16px',
+      fontSize    : '12px',
       flex        : '100 0 auto',
       paddingLeft : gu(1)
     }

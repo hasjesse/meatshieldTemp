@@ -1,0 +1,53 @@
+// Colors
+//
+// TODO: Remove these colors once they are in Delphi
+// --------------------------------------------------
+@tune-blue: #007AFF;
+
+@color-slate-gray-dark: #2b3b49;
+@color-slate-gray-base: #3e5264;
+@color-slate-gray-medium: #78909c;
+@color-slate-gray-light: #e4ebed;
+@color-slate-gray-extra-light: #f8fafa;
+
+@text-color-base: @color-slate-gray-dark;
+@text-color-tertiary: fadeout(@text-color-base, 60%);
+
+@input-color-default: @text-color-base;
+@input-color-border: @color-slate-gray-light;
+@input-color-border-focus: @color-slate-gray-medium;
+
+.m-pager-container {
+  display: flex;
+}
+
+.m-pager-select-page-total-container {
+  display: flex;
+  flex: 1 0 auto;
+
+  .m-pager-page-size-message {
+    flex: 1 0 auto;
+    margin-left: 2rem;
+  }
+} // .t-pager-select-page-total-container
+
+.m-pager-scroller-container {
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: flex-end;
+}
+
+.m-pager-page-picker {
+  color: @color-slate-gray-medium;
+  display: flex;
+  padding: 0 3rem;
+}
+
+input[type="number"].m-pager-current-page-picker {
+  width: 10rem; // overrides the default from base styles
+}
+
+.m-pager-navigation-container-left {
+  margin-right: 2rem;
+}

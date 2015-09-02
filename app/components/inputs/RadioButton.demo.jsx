@@ -1,7 +1,8 @@
 import React from 'react';
-import RadioButton from 'mdhq-components/inputs/RadioButton';
 import Radium from 'radium';
-import MDHQBase, {autobind} from 'mdhq-components/base/Base';
+
+import MDHQBase, {autobind} from '../base/Base';
+import RadioButton from '../inputs/RadioButton';
 
 var dummyRadiobuttons = [
   {

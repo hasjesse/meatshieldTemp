@@ -3,15 +3,15 @@
 // --------------------------------------------------
 //  Check Icon classes
 // --------------------------------------------------
-
-.m-radio-show svg {
+.m-radio-show svg, .m-radio-hide svg {
   display: block;
   width: 10px;
+  height: 10px;
   * {
     fill: @m-radiobutton-color !important;
   }
 }
 
 .m-radio-hide svg {
-  display: none;
+  opacity: 0;
 }

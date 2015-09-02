@@ -11,8 +11,8 @@ import Checkbox from '../inputs/Checkbox';
 import Tag from '../tags/Tag';
 import RankingsTableRow from '../tables/RankingsTableRow';
 
-// Delphi
-import Icon from 'delphi/icon/Icon';
+// TXL
+import {Gear} from 'txl/icons/Icons';
 
 import './RankingsTable.less';
 
@@ -43,6 +43,10 @@ export default class MDHQRankingsTable extends MDHQBase {
   }
 
   render() {
+    // split the data based on pagination info
+    let offSet = (this.props.pagerCurrentPage -1)*this.props.pagerCurrentSize;
+    let pagedDataSet = this.props.tableData.slice(offSet, offSet + this.props.pagerCurrentSize);
+
     return (
       <div style={STYLES.container}>
         <div style={STYLES.header}>
@@ -60,7 +64,7 @@ export default class MDHQRankingsTable extends MDHQBase {
           <div style={getHeaderCellStyles('organicCell')}>% of Organic Installs</div>
         </div>
 
-        {this.props.tableData.map((data, index) =>{
+        {pagedDataSet.map((data, index) =>{
           return(
             <RankingsTableRow
               graphKeyword={() => this.props.graphKeyword(data)}
