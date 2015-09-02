@@ -1,9 +1,10 @@
 var React = require('react');
-var MDHQBase, {autobind, NOOP} = require('../base/Base');
 
-var Select      = require('../select/Select');
-var Checkbox    = require('../inputs/Checkbox');
-var RadioButton = require('../inputs/RadioButton');
+var MDHQBase, {autobind, NOOP} = require('../../components/base/Base');
+
+var Select      = require('../../components/select/Select');
+var Checkbox    = require('../../components/inputs/Checkbox');
+var RadioButton = require('../../components/inputs/RadioButton');
 
 require('./KeywordsModal.less')
 

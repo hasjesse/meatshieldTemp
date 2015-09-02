@@ -1,7 +1,7 @@
 var React = require('react');
-var MDHQBase, {autobind, NOOP} = require('../base/Base');
+var MDHQBase, {autobind, NOOP} = require('../../components/base/Base');
 
-var FileInput = require('../inputs/FileInput');
+var FileInput = require('../../components/inputs/FileInput');
 
 module.exports = React.createClass({
   'displayName' : 'MDHQKeywordsBulkUpload',
