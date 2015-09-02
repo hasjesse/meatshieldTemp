@@ -1,11 +1,12 @@
 var React = require('react');
 var _ = require('lodash');
 
-var MDHQBase, {autobind, NOOP} = require('../base/Base');
-var Modal       = require('../modal/Modal');
-var CopyFromApp = require('../keywordsModal/CopyFromApp');
-var BulkUpload  = require('../keywordsModal/BulkUpload');
-var ManualEntry = require('../keywordsModal/ManualEntry');
+var MDHQBase, {autobind, NOOP} = require('../../components/base/Base');
+var Modal = require('../../components/modal/Modal');
+
+var CopyFromApp = require('./CopyFromApp');
+var BulkUpload  = require('./BulkUpload');
+var ManualEntry = require('./ManualEntry');
 
 // TXL
 var Tabs        = require('txl/tabs/Tabs');

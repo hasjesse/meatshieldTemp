@@ -5,12 +5,12 @@ import React from 'react';
 import Radium from 'radium';
 import _ from 'lodash';
 
-import MDHQBase, {autobind, NOOP} from '../base/Base';
-import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
+import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
+import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
-import Checkbox from '../inputs/Checkbox';
-import Tag from '../tags/Tag';
-import ProgressBar from '../progress/ProgressBar';
+import Checkbox from '../../components/inputs/Checkbox';
+import Tag from '../../components/tags/Tag';
+import ProgressBar from '../../components/progress/ProgressBar';
 
 import Icon from 'delphi/icon/Icon';
 

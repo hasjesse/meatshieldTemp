@@ -10,9 +10,10 @@ import DropdownButton from '../components/buttons/DropdownButton';
 import DateRangePicker from '../components/dateRangePicker/DateRangePicker';
 import Select from '../components/select/Select';
 import Pager from '../components/pager/Pager';
-import KeywordsModal from '../components/keywordsModal/KeywordsModal';
 
-import RankingsTable from '../components/tables/RankingsTable';
+// Composites
+import KeywordsModal from '../composites/keywordsModal/KeywordsModal';
+import RankingsTable from '../composites/rankingsTable/RankingsTable';
 
 // Delphi
 import TMCNavigation from 'delphi/TMC/TMCNavigation';

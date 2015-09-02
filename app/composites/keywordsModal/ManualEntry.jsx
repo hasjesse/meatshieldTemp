@@ -1,6 +1,6 @@
 var React = require('react');
 
-var MDHQBase, {autobind, NOOP} = require('../base/Base');
+var MDHQBase, {autobind, NOOP} = require('../../components/base/Base');
 
 var TextField   = require('txl/input-fields/TextField');
 
