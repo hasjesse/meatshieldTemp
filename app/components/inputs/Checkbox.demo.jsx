@@ -1,7 +1,8 @@
 import React from 'react';
-import Checkbox from 'mdhq-components/inputs/Checkbox';
 import Radium from 'radium';
+
 import MDHQBase, {autobind} from 'mdhq-components/base/Base';
+import Checkbox from './Checkbox';
 
 var dummyCheckboxes = [
   {

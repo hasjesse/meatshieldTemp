@@ -7,13 +7,17 @@ var RankingsStore = Reflux.createStore({
   'listenables' : RankingsActions,
 
   init : function() {
+    this.rankingsTableAddTags         = [];
     this.rankingsTableAllRowsSelected = false;
     this.rankingsTableBulkAction      = false;
+    this.rankingsTableCurrentPage     = 1;
     this.rankingsTableData            = [];
     this.rankingsTableFilterData      = [];
+    this.rankingsTablePageSize        = 20;
     this.rankingsTableSelectedRows    = [];
     this.rankingsTableSelectedTags    = [];
     this.rankingsTableSettings        = {};
+    this.rankingsTableTotalPages      = 1;
   },
 
   onLoadRankingsTableCompleted : function(res) {
@@ -50,6 +54,16 @@ var RankingsStore = Reflux.createStore({
     // data that changes and is passed thorugh to the page
     this.rankingsTableDataFiltered = res;
     this.setSelectFilters(res);
+    // set total pages for pagination
+    this.rankingsTableTotalPages = Math.ceil(this.rankingsTableDataFiltered.length/this.rankingsTablePageSize);
+    this.emitChange();
+  },
+
+  setTableSize : function(values) {
+    // set pagination states
+    this.rankingsTablePageSize = values.current.size;
+    this.rankingsTableTotalPages = Math.ceil(this.rankingsTableDataFiltered.length/this.rankingsTablePageSize);
+    this.rankingsTableCurrentPage = values.current.page;
     this.emitChange();
   },
 
@@ -116,6 +130,7 @@ var RankingsStore = Reflux.createStore({
       }
     });
     this.rankingsTableSelectedRows = selectedRows;
+    this.clearAddTags();
     this.emitChange();
   },
 
@@ -155,6 +170,8 @@ var RankingsStore = Reflux.createStore({
       this.rankingsTableSelectedTags = allSelected.allSelected;
     }
     this.filterTableData();
+    // update pager total pages
+    this.rankingsTableTotalPages = Math.ceil(this.rankingsTableDataFiltered.length/this.rankingsTablePageSize);
     this.emitChange();
   },
 
@@ -189,7 +206,29 @@ var RankingsStore = Reflux.createStore({
     this.setSelectedRows();
     this.setBulkAction();
     this.areAllRowsChecked();
+    // update pager total pages
+    this.rankingsTableTotalPages = Math.ceil(this.rankingsTableDataFiltered.length/this.rankingsTablePageSize);
     this.emitChange();
+  },
+
+  onAddTagsToKeywordsCompleted : function(keywords, tags) {
+    console.log('add tags store');
+  },
+
+  setAddTags : function(allTags) {
+    this.rankingsTableAddTags = allTags.allSelected;
+    this.emitChange();
+  },
+
+  clearAddTags : function() {
+    if(this.rankingsTableSelectedRows.length === 0){
+      this.rankingsTableAddTags = [];
+    }
+    this.emitChange();
+  },
+
+  onRemoveTagsFromKeywordsCompleted : function() {
+    console.log('remove tags store');
   },
 
   emitChange : function(action) {
@@ -198,14 +237,18 @@ var RankingsStore = Reflux.createStore({
 
   getExposedData : function() {
     return {
+      rankingsTableAddTags         : this.rankingsTableAddTags,
+      rankingsTableAllRowsSelected : this.rankingsTableAllRowsSelected,
+      rankingsTableBulkAction      : this.rankingsTableBulkAction,
+      rankingsTableCurrentPage     : this.rankingsTableCurrentPage,
       rankingsTableData            : this.rankingsTableData,
       rankingsTableDataFiltered    : this.rankingsTableDataFiltered,
       rankingsTableFilterData      : this.rankingsTableFilterData,
+      rankingsTablePageSize        : this.rankingsTablePageSize,
       rankingsTableSelectedRows    : this.rankingsTableSelectedRows,
       rankingsTableSelectedTags    : this.rankingsTableSelectedTags,
       rankingsTableSettings        : this.rankingsTableSettings,
-      rankingsTableBulkAction      : this.rankingsTableBulkAction,
-      rankingsTableAllRowsSelected : this.rankingsTableAllRowsSelected
+      rankingsTableTotalPages      : this.rankingsTableTotalPages
     };
   }
 });

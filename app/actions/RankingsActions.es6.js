@@ -105,23 +105,27 @@ var tableSettings = {
 };
 
 var Actions = Reflux.createActions({
+  addTagsToKeywords         : {children : ['completed', 'failed']},
   loadRankingsTable         : {children : ['completed', 'failed']},
   loadRankingsTableFilters  : {},
   loadRankingsTableSettings : {children : ['completed', 'failed']},
+  removeTagsFromKeywords    : {children : ['completed', 'failed']},
   selectAllRows             : {},
   selectRow                 : {},
   selectTag                 : {},
   selectTagDropdown         : {},
+  setAddTags                : {},
+  setTableSize              : {},
   stopTrackingKeywords      : {children : ['completed', 'failed']}
 });
 
 Actions.loadRankingsTable.listen(function() {
-  request
-    .get('/api/v2/users/apps/22323')
-    .use(prefix('http://localhost:9000'))
-    .end(function(err, res){
-      //console.log(res.body);
-    });
+  //request
+  //  .get('/api/v2/users/apps/22323')
+  //  .use(prefix('http://localhost:9000'))
+  //  .end(function(err, res){
+  //    //console.log(res.body);
+  //  });
   // TODO: hook up to real data
   return this.completed(dummyData);
 });
@@ -135,6 +139,19 @@ Actions.stopTrackingKeywords.listen(function(keywords) {
   // TODO: hook up to real data
   //return this.completed(tableSettings);
   console.log('stop traking: ', keywords)
+});
+
+Actions.addTagsToKeywords.listen(function(keywords, tags) {
+  // TODO: hook up to real data
+  //return this.completed(tableSettings);
+  console.log('add tags to: ', keywords);
+  console.log('add these tags: ', tags);
+});
+
+Actions.removeTagsFromKeywords.listen(function(keywords) {
+  // TODO: hook up to real data
+  //return this.completed(tableSettings);
+  console.log('remove tags from: ', keywords);
 });
 
 module.exports = Actions;

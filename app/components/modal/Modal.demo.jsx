@@ -1,8 +1,8 @@
 var React = require('react');
 
-var Modal = require('mdhq-components/modal/Modal');
-var DotLoader = require('mdhq-components/loaders/DotLoader');
-var ProgressBar = require('mdhq-components/progress/ProgressBar');
+var Modal = require('../modal/Modal');
+var DotLoader = require('../loaders/DotLoader');
+var ProgressBar = require('../progress/ProgressBar');
 
 module.exports = React.createClass({
   'displayName' : 'MDHQ_Modal_Demo',

@@ -94,6 +94,7 @@
     "strip-loader": "^0.1.0",
     "style-loader": "~0.8.2",
     "supertest": "~1.1.0",
+    "txl": "git+ssh://git@github.com:Adapp/TXL_components",
     "url-loader": "~0.5.5",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1",

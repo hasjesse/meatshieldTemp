@@ -1,7 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 
-import MDHQBase, {autobind, NOOP} from 'mdhq-components/base/Base';
+import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
 function getStyles(props) {
@@ -13,6 +13,7 @@ function getStyles(props) {
   );
 }
 
+@autobind
 @Radium // order is important here, radium will improperly apply hover if reversed
 export default class MDHQButton extends MDHQBase {
 

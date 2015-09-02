@@ -1,7 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 
-import MDHQBase, {autobind, NOOP} from 'mdhq-components/base/Base';
+import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
 function getStyles(props) {

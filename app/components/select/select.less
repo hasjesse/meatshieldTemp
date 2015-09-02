@@ -188,6 +188,11 @@
   display: block;
   padding: @select-menu-padding;
 
+  &.is-disabled {
+    color: @input-placeholder-color;
+    cursor: not-allowed;
+  }
+
   &.is-focused {
     background-color: @input-color-background-selected;
     color: @input-color-default;
@@ -209,6 +214,8 @@
 .Select.is-multi .Select-input {
   border: 1px solid transparent;
 }
+
+
 
 .Select-item {
   background-color: @input-color-background-selected;
@@ -240,4 +247,10 @@
   border-top-left-radius: 20px;
   cursor: pointer;
   padding: 0 0 0 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
 }

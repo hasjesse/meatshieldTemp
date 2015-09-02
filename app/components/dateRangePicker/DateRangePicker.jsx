@@ -6,11 +6,14 @@ import moment from 'moment';
 import _ from 'lodash';
 
 
-import MDHQBase, {autobind, NOOP} from 'mdhq-components/base/Base';
+import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
 import Icon from 'delphi/icon/Icon';
-import DatePicker from 'delphi/date-range-picker/DateRangePicker';
+
+// TXL
+import Button from 'txl/buttons/Button'
+import CalendarPickerWithPresets from 'txl/calendar-picker/CalendarPickerWithPresets';
 
 import './DatePicker.less';
 
@@ -20,7 +23,8 @@ export default class MDHQDateRangePicker extends MDHQBase {
   constructor(...props) {
     super(...props);
     this.state = {
-      'dropdownOpen' : false
+      datesSelected : {},
+      dropdownOpen : false
     };
   }
 
@@ -38,13 +42,24 @@ export default class MDHQDateRangePicker extends MDHQBase {
   _documentClickHandler(e) {
     var parentNode = e.target;
 
+
     if (this.state.dropdownOpen) {
       var toggleBtnNode = this.refs.DateRangePickerFeild.getDOMNode();
       var boxNode = this.refs.DateRangePickerBox.getDOMNode();
 
       while (parentNode) {
         // if toggle btn or clicked inside edit box
-        if (parentNode === toggleBtnNode || parentNode === boxNode) {return;}
+        if (parentNode === toggleBtnNode || parentNode === boxNode) {
+          return;
+        }
+        if (_.includes(['TxlCalendarPresets', 'TxlCalendar', 'TxlCalendarPicker'], parentNode.getAttribute('data-component')) ||
+        parentNode.className === 'DateRangePickerBox') {
+          return;
+        }
+        if (parentNode === document.body) {
+          this.setState({'dropdownOpen': false});
+          return;
+        }
         parentNode = parentNode.parentNode;
       }
       // if clicked outside of toggle btn or edit box
@@ -87,14 +102,23 @@ export default class MDHQDateRangePicker extends MDHQBase {
         {this.state.dropdownOpen &&
         <div
           ref="DateRangePickerBox"
+          className="DateRangePickerBox"
           style={STYLES.dropdownContainer}>
           <div style={STYLES.calloutArrow}></div>
-          <DatePicker
-            onChange={this.handleChange}
-            numCals={3}
-            startDate={this.props.startDate}
-            endDate={this.props.endDate}
-            rangeMode={true} />
+          <CalendarPickerWithPresets
+            onDateSelect={(date) => this.setState({datesSelected : date})} />
+          <div style={STYLES.calendarButtons}>
+            <Button
+              onClick={() => this.props.applyDate(this.state.datesSelected)}
+              variant="accent">
+              Apply
+            </Button>
+            <Button
+              onClick={() => this.props.applyDate(this.state.datesSelected)}
+              variant="muted">
+              Cancel
+            </Button>
+          </div>
         </div>
         }
       </div>
@@ -103,19 +127,21 @@ export default class MDHQDateRangePicker extends MDHQBase {
 }
 
 MDHQDateRangePicker.defaultProps = {
-  onChange: NOOP,
-  startDate: moment(),
-  endDate: moment().add(7, 'days'),
-  useMoment: false,
-  isPropagationStopped: false
+  applyDate            : NOOP,
+  endDate              : moment().add(7, 'days'),
+  isPropagationStopped : false,
+  onChange             : NOOP,
+  startDate            : moment(),
+  useMoment            : false
 };
 
 MDHQDateRangePicker.propTypes = {
-  onChange: React.PropTypes.func,
-  startDate: React.PropTypes.object,
-  endDate: React.PropTypes.object,
-  useMoment: React.PropTypes.bool,
-  isPropagationStopped: React.PropTypes.bool
+  applyDate            : React.PropTypes.func,
+  endDate              : React.PropTypes.object,
+  isPropagationStopped : React.PropTypes.bool,
+  onChange             : React.PropTypes.func,
+  startDate            : React.PropTypes.object,
+  useMoment            : React.PropTypes.bool
 };
 
 const STYLES = {
@@ -129,13 +155,25 @@ const STYLES = {
     position : 'relative'
   },
   dropdownContainer : {
-    backgroundColor: colors.neutral['0'],
-    border: '1px solid #e3eced',
-    boxShadow: '0 2px 8px #e3eced',
-    color: '#2b3b49',
-    padding: '10px',
-    position: 'absolute',
-    top: '40px',
-    zIndex: '50'
+    backgroundColor : colors.neutral['0'],
+    border          : '1px solid #e3eced',
+    boxShadow       : `0 2px 2px rgba(13, 16, 23, 0.3)`,
+    color           : '#2b3b49',
+    position        : 'absolute',
+    top             : '40px',
+    zIndex          : '50'
+  },
+  calloutArrow : {
+    backgroundColor : 'white',
+    height          : '14px',
+    left            : '9px',
+    position        : 'absolute',
+    top             : '-7px',
+    transform       : 'rotate(45deg)',
+    width           : '14px'
+  },
+  calendarButtons : {
+    borderTop : `1px solid ${colors.neutral['100']}`,
+    padding   : gu(2)
   }
 };

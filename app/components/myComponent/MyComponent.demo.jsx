@@ -1,5 +1,5 @@
 var React = require('react');
-var MyComponent = require('mdhq-components/myComponent/MyComponent');
+var MyComponent = require('../myComponent/MyComponent');
 
 var Button = require('delphi/buttons/Button');
 

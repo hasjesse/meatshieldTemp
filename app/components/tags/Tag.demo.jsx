@@ -1,10 +1,10 @@
 import React from 'react';
 import Radium from 'radium';
 
-import MDHQBase, {autobind, NOOP} from 'mdhq-components/base/Base';
+import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
-import Tag from 'mdhq-components/tags/Tag';
+import Tag from '../tags/Tag';
 
 const dummyTags = ['Top Charts', 'Feature', 'Top 10', 'Top 20', 'Low Rank', 'Keyword Suggestion', 'Tag 1', 'Long tag name here'];
 const selectedTags = [];

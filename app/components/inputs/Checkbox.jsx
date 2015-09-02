@@ -5,7 +5,7 @@ import _ from 'lodash';
 import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
-import Icon from 'node_modules/delphi-components/delphi_components/icon/Icon.jsx';
+import Icon from 'delphi/icon/Icon';
 
 // only has styles for classes passed to the icon
 require('./checkbox.less');
@@ -92,7 +92,8 @@ const STYLES = {
     },
     label : {
       flex        : '100 0 auto',
-      paddingLeft : gu(1)
+      paddingLeft : gu(1),
+      fontSize    : '12px'
     }
   }
 };

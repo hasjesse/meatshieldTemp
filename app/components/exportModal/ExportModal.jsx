@@ -3,10 +3,10 @@ var React = require('react');
 var Button = require('delphi/buttons/Button');
 var Icon   = require('delphi/icon/Icon');
 
-var Modal       = require('mdhq-components/modal/Modal');
-var DotLoader   = require('mdhq-components/loaders/DotLoader');
-var ProgressBar = require('mdhq-components/progress/ProgressBar');
-var Select      = require('mdhq-components/select/Select');
+var Modal       = require('../modal/Modal');
+var DotLoader   = require('../loaders/DotLoader');
+var ProgressBar = require('../progress/ProgressBar');
+var Select      = require('../select/Select');
 
 require('./exportModal.less')
 
