@@ -1,0 +1,243 @@
+// MAT COLORS
+// TODO: update these colors in delphi. they are currently not in the base styles
+@color-slate-gray-dark: #2b3b49;
+@color-slate-gray-base: #3e5264;
+@color-slate-gray-medium: #78909c;
+@color-slate-gray-light: #e4ebed;
+@color-slate-gray-extra-light: #f8fafa;
+
+@text-color-base: @color-slate-gray-dark;
+@text-color-tertiary: fadeout(@text-color-base, 60%);
+
+@input-color-default: @text-color-base;
+@input-color-border: @color-slate-gray-light;
+@input-color-border-focus: @color-slate-gray-medium;
+
+@input-color-disabled: @color-slate-gray-medium;
+@input-background-disabled: @color-slate-gray-extra-light;
+
+@input-placeholder-color: @text-color-tertiary;
+
+@input-color-background-selected: fadeout(@color-slate-gray-light, 40%);
+
+
+// Select Color
+@select-tag-hover: fadeout(@color-slate-gray-light, 20%);
+@select-controls: fadeout(@color-slate-gray-light, 20%);
+
+// Select Sizes
+@select-menu-max-height: 200px;
+@select-menu-padding: 1rem;
+
+
+.Select {
+  position: relative;
+  text-align: left;
+}
+
+.Select-control {
+  border-bottom: @border-width-base solid @input-color-border;
+  color: @input-color-default;
+  cursor: default;
+  min-height: 7rem;
+  outline: none;
+  overflow: hidden;
+  padding: 3px 0 0 2rem;
+  position: relative;
+  transition: all 200ms ease;
+}
+
+.is-searchable.is-open > .Select-control {
+  cursor: text;
+}
+
+.is-open > .Select-control {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.is-open > .Select-control > .Select-arrow {
+  border-color: transparent transparent @select-controls;
+  border-width: 0 5px 5px;
+}
+
+.is-searchable.is-focused:not(.is-open) > .Select-control {
+  cursor: text;
+}
+
+.is-focused:not(.is-open) > .Select-control {
+  border-color: @input-color-border;
+}
+
+.Select-placeholder {
+  color: @input-placeholder-color;
+  margin: 0 0 0 1rem;
+  max-width: 100%;
+  overflow: hidden;
+  position: absolute;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.has-value > .Select-control > .Select-placeholder {
+  color: @input-color-default;
+}
+
+.Select-input {
+  height: 5rem;
+}
+
+.Select-input > input:not([type]) { // overly specific to overide base style
+  background: none transparent;
+  border: 0 none;
+  cursor: default;
+  display: inline-block;
+  font-family: inherit;
+  font-size: inherit;
+  height: 25px;
+  line-height: 25px;
+  outline: none;
+  padding: 0;
+  text-indent: 0;
+}
+
+.is-focused .Select-input > input {
+  cursor: text;
+}
+
+.Select-control:not(.is-searchable) > .Select-input {
+  outline: none;
+}
+
+.Select-loading {
+  animation: spin 400ms infinite linear;
+  border-radius: 50%;
+  border: 2px solid #cccccc;
+  border-right-color: #333333;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 16px;
+  margin-top: -8px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  width: 16px;
+}
+
+.has-value > .Select-control > .Select-loading {
+  right: 46px;
+}
+
+.Select-clear {
+  color: @select-controls;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  padding: 6px 10px;
+  position: absolute;
+  right: 17px;
+  top: 0;
+
+  &:hover {
+    color: @select-controls;
+  }
+}
+
+.Select-clear > span {
+  font-size: 1.1em;
+}
+
+.Select-arrow {
+  border-color: @select-controls transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  content: " ";
+  display: block;
+  height: 0;
+  margin-top: -ceil(2.5px);
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  width: 0;
+}
+
+.Select-menu-outer {
+  -webkit-overflow-scrolling: touch;
+  background-color: white;
+  box-shadow: 0 2px 2px rgba(13, 16, 23, 0.4);
+  border-bottom-left-radius: @border-radius-base;
+  border-bottom-right-radius: @border-radius-base;
+  border-top-color: @input-color-border;
+  box-sizing: border-box;
+  margin-top: 5px;
+  max-height: @select-menu-max-height;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+
+.Select-menu {
+  max-height: (@select-menu-max-height - 10px);
+  overflow-y: auto;
+}
+
+.Select-option {
+  color: @input-color-default;
+  cursor: pointer;
+  display: block;
+  padding: @select-menu-padding;
+
+  &.is-focused {
+    background-color: @input-color-background-selected;
+    color: @input-color-default;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: @border-radius-base;
+    border-bottom-right-radius: @border-radius-base;
+  }
+}
+
+.Select-noresults {
+  color: @input-color-default;
+  cursor: default;
+  display: block;
+  padding: @select-menu-padding;
+}
+
+.Select.is-multi .Select-input {
+  border: 1px solid transparent;
+}
+
+.Select-item {
+  background-color: @input-color-background-selected;
+  border-radius: 20px;
+  color: @input-color-default;
+  display: inline-block;
+  margin: 0 2px 4px 2px;
+}
+
+.Select-item-icon,
+.Select-item-label {
+  display: inline-block;
+}
+
+.Select-item-label {
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  cursor: default;
+  padding: 0 10px;
+}
+
+.Select-item-label .Select-item-label__a {
+  color: @input-color-default;
+  cursor: pointer;
+}
+
+.Select-item-icon {
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+  padding: 0 0 0 10px;
+}
