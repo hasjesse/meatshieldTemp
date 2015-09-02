@@ -1,7 +1,7 @@
 var Reflux = require('reflux');
-var ClientCache = require('lib/ClientCache');
-var UserActions = require('actions/UserActions');
-var crypto = require('../lib/cryptofoo');
+var ClientCache = require('../../lib/ClientCache');
+var UserActions = require('../actions/UserActions');
+var crypto = require('../../lib/cryptofoo');
 
 var UserStore = Reflux.createStore({
   listenables : UserActions,

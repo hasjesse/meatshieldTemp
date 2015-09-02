@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
 var _ = require('lodash');
-var Logger = require('lib/logger/logger');
+// var Logger = require('lib/logger/logger');
 
 var UserActions = Reflux.createActions({
   init : {children : ['completed', 'failed']}
@@ -36,17 +36,17 @@ UserActions.init.listen(function(sessionToken, userData={}) {
   // if actually stale but login app is out of sync, it'll eventually  401 and send you back to the login app;
   // the common case here is that the sessionToken is not stale
   if (!_.isEmpty(userData) && !_.isUndefined(userData.permissions)) {
-    Logger.info({
-      message : 'User Metadata loaded from Login App',
-      extra   : userData
-    });
+    // Logger.info({
+    //   message : 'User Metadata loaded from Login App',
+    //   extra   : userData
+    // });
 
     return validateAndResolve(userData);
   }
 
   // requiring here to avoid an unfortunate circular dependency with UserStore
   // circular dependency would cause UserActions to have module.exports = {}
-  var MatApi = require('lib/api/matApi');
+  var MatApi = require('../../lib/api/matApi');
 
   // we need to pass sessionToken explicitly for this call until sessionToken gets saved into the UserStore
   MatApi.get({endpoint : 'session/authenticate/get_session_data'}, {session_token : sessionToken})

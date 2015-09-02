@@ -15,9 +15,6 @@ export default (config, options) => {
       loader.loaders = [];
     } else if (options.separateStylesheet) {
       loader.loaders = [extract("style-loader")].concat(loader.loaders);
-    } else {
-      // loader.loaders = `style!${loader.loaders}`;
-      loader.loaders = [].concat(loader.loaders);
     }
     loaders.push(loader);
   }

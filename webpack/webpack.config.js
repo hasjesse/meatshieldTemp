@@ -3,7 +3,6 @@ import webpack from "webpack";
 import strategies from "./strategies";
 import yargs from "yargs";
 import path from "path";
-// import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 const argv = yargs
   .alias("p", "optimize-minimize")
@@ -27,7 +26,7 @@ export default (options) => {
   options.hotPort = 2992;
   options.publicPath = options.devServer ? "/_assets/" : "";
   const environment = options.test || options.development ? "development" : "production";
-  const babelLoader = "babel";
+  const babelLoader = "babel-loader?stage=1&blacklist=useStrict";
   // const reactLoader = options.development ? `react-hot!${babelLoader}` : babelLoader;
   const reactLoader = babelLoader;
   const chunkFilename = (options.devServer ? "[id].js" : "[name].js") +
@@ -59,6 +58,7 @@ export default (options) => {
         base_styles: path.join(__dirname, '../', 'node_modules', 'matstyle', 'less'),
         base_colors: path.join(__dirname, '..', 'node_modules', 'matstyle', 'less', 'colors.js'),
         delphi: path.join(__dirname, '../', 'node_modules', 'delphi-components', 'delphi_components'),
+        service_layer: path.join(__dirname, '../', 'node_modules', 'FnServiceLayer', 'src'),
         utils: path.join(__dirname, '../', 'node_modules', 'delphi-components', 'delphi_components', 'util'),
         node_modules: path.join(__dirname, '../', 'node_modules'),
        'mdhq-components': path.join(__dirname, '../', 'app', 'components'),
@@ -76,10 +76,10 @@ export default (options) => {
 
     module: {
       loaders: [
-        { test: /\.(js|jsx|.es6\.js)/, loader: reactLoader, exclude: /node_modules/ },
-        { test: /\.(js|jsx|.es6\.js)/, loader: reactLoader, include: /delphi/ },
+        { test: /\.jsx$/, loader: reactLoader, exclude: /node_modules/ },
+        { test: /\.(js|.es6\.js)/, loader: reactLoader },
         { test: /matstyle\/less\/colors.js$/, loaders: [ 'json-loader', 'colors-loader' ] },
-        { test: /\.json/, loaders: ['json-loader'] },
+        { test: /\.json$/, loaders: ['json-loader'] },
         { test: /\.svg$/, loaders: [ 'raw-loader' ] },
       ],
     },

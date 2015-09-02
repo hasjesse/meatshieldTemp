@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react";
 
-import{ RouteHandler } from "react-router";
+import { RouteHandler } from "react-router";
 
 import "matstyle/less/main.less";
 
-// var ssoHandlerImported = false;
+let ssoHandlerImported = true;
 
 const App = React.createClass({
   displayName : 'App',
@@ -33,6 +33,13 @@ const App = React.createClass({
 
   render() {
     let key = this.context.router.getCurrentPath();
+
+    if (!ssoHandlerImported) {
+      // this.getPathname() is coming from the Router.State mixin, returns /tmc-privacy-policy when you're on
+      // the Privacy Policy page defined below
+      require('../../lib/ssoHandler');
+      ssoHandlerImported = true;
+    }
 
     return (
       <div>
