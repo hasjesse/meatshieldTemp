@@ -1,6 +1,5 @@
 var Reflux = require('reflux');
 var _ = require('lodash');
-// var Logger = require('lib/logger/logger');
 
 var UserActions = Reflux.createActions({
   init : {children : ['completed', 'failed']}
@@ -12,10 +11,6 @@ UserActions.init.listen(function(sessionToken, userData={}) {
 
     if (!userData) {
       return this.failed();
-    }
-
-    if (userData.context.type !== 'advertiser') {
-      return this.failed({'message' : 'WRONG_CONTEXT'});
     }
 
     // format the rules to be a little easier to work with
@@ -36,10 +31,6 @@ UserActions.init.listen(function(sessionToken, userData={}) {
   // if actually stale but login app is out of sync, it'll eventually  401 and send you back to the login app;
   // the common case here is that the sessionToken is not stale
   if (!_.isEmpty(userData) && !_.isUndefined(userData.permissions)) {
-    // Logger.info({
-    //   message : 'User Metadata loaded from Login App',
-    //   extra   : userData
-    // });
 
     return validateAndResolve(userData);
   }

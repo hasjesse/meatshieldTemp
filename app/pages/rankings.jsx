@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 import Reflux from 'reflux';
+import Router from 'react-router';
 
 import MDHQBase, {autobind, NOOP} from '../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../components/base/styleHelpers';
@@ -31,13 +32,17 @@ import AppNavigationActions from '../actions/AppNavigationActions';
 // Stores
 import RankingsStore from '../stores/RankingsStore';
 import AppNavigationStore from '../stores/AppNavigationStore';
+import UserStore from '../stores/UserStore';
 
 
 module.exports = Radium(React.createClass({
   displayName : 'MDHQRankingsPage',
   mixins      : [
     Reflux.connect(RankingsStore, 'rankingsData'),
-    Reflux.connect(AppNavigationStore, 'appsData')
+    Reflux.connect(AppNavigationStore, 'appsData'),
+    Reflux.connect(UserStore, 'userData'),
+    Router.State,
+    Router.Navigation
   ],
 
   getInitialState : function () {
@@ -45,14 +50,42 @@ module.exports = Radium(React.createClass({
       appsData: AppNavigationStore.getExposedData(),
       rankingsData : RankingsStore.getExposedData(),
       selectedTags : [],
+      userData: UserStore.getExposedData(),
     };
   },
 
+  _bootstrapRankingsPage : function () {
+    var userDataUnsubscribe;
+
+    var afterUserLoaded = (userData, error) => {
+
+      if (window.loadingStateMessage) {
+         window.loadingStateMessage.hide();
+      }
+
+      AppNavigationActions.loadAppsWithRegions();
+      RankingsActions.loadRankingsTable();
+      RankingsActions.loadRankingsTableFilters();
+      RankingsActions.loadRankingsTableSettings();
+
+      if (userDataUnsubscribe) {
+        userDataUnsubscribe();
+      }
+    };
+
+    if (window.loadingStateMessage) {
+      window.loadingStateMessage.hide();
+    }
+
+    if (_.isEmpty(UserStore.getExposedData().context.account)) {
+      userDataUnsubscribe = UserStore.listen(afterUserLoaded);
+    } else {
+      afterUserLoaded(UserStore.getExposedData());
+    }
+  },
+
   componentDidMount : function() {
-    RankingsActions.loadRankingsTableSettings();
-    AppNavigationActions.loadAppsWithRegions();
-    RankingsActions.loadRankingsTable();
-    RankingsActions.loadRankingsTableFilters();
+    this._bootstrapRankingsPage();
   },
 
   tableAddTags : function() {
@@ -144,87 +177,92 @@ module.exports = Radium(React.createClass({
       );
     }
 
-    return (
-      <div data-component="RankingsPage">
-        <TMCNavigation
-          productLinks = {productLinks}
-          onLogout={NOOP}/>
-        <div style={STYLES.pageContainer}>
+    if (!this.state.userData.context.account) {
+      return (null);
+    } else {
+      return (
+        <div data-component="RankingsPage">
+          <TMCNavigation
+            productLinks = {productLinks}
+            companyName = {this.state.userData.context.account.name}
+            onLogout={NOOP}/>
+          <div style={STYLES.pageContainer}>
 
-          <div style={STYLES.navContainer}>
-            <h2>Nav Area</h2>
-          </div>
-
-          <div style={STYLES.contentContainer}>
-
-            <div style={STYLES.pageHeadingContainer}>
-              <div style={STYLES.pageTitleContainer}>
-                <h1 style={STYLES.pageTitle}>Top Charts and Keywords</h1>
-              </div>
-              <div style={STYLES.headerButtons}>
-                <KeywordsModal
-                  appsData={this.state.appsData} />
-              </div>
+            <div style={STYLES.navContainer}>
+              <h2>Nav Area</h2>
             </div>
 
-            <div style={STYLES.subHeaderContainer}>
-              <h2>Performance Trends</h2>
-              <div style={STYLES.subHeaderActions}>
-                <div style={STYLES.graphDateRange}>
-                  <DateRangePicker
-                    applyDate={(date) => console.log('apply date: ', date)}/>
+            <div style={STYLES.contentContainer}>
+
+              <div style={STYLES.pageHeadingContainer}>
+                <div style={STYLES.pageTitleContainer}>
+                  <h1 style={STYLES.pageTitle}>Top Charts and Keywords</h1>
                 </div>
-                <div style={STYLES.savedView}>
-                  <DropdownButton
-                    size="standard"
-                    variant="muted"
-                    name="Saved View">
-                    <p>stuff</p>
-                  </DropdownButton>
+                <div style={STYLES.headerButtons}>
+                  <KeywordsModal
+                    appsData={this.state.appsData} />
                 </div>
               </div>
-            </div>
 
-            <div style={STYLES.graphContainer}>
-              <img style={STYLES.graph} src="http://placehold.it/1200x500?text=GRAPH!" />
-            </div>
-
-            <div style={STYLES.tableActions}>
-              <div style={STYLES.tableSelect}>
-                {tableSelectHTML}
+              <div style={STYLES.subHeaderContainer}>
+                <h2>Performance Trends</h2>
+                <div style={STYLES.subHeaderActions}>
+                  <div style={STYLES.graphDateRange}>
+                    <DateRangePicker
+                      applyDate={(date) => console.log('apply date: ', date)}/>
+                  </div>
+                  <div style={STYLES.savedView}>
+                    <DropdownButton
+                      size="standard"
+                      variant="muted"
+                      name="Saved View">
+                      <p>stuff</p>
+                    </DropdownButton>
+                  </div>
+                </div>
               </div>
-              <div>
-                {tableButtonHtml}
-              </div>
-            </div>
 
-            <div style={STYLES.baseContainer}>
-              <RankingsTable
-                allRowsSelected={this.state.rankingsData.rankingsTableAllRowsSelected}
-                graphKeyword={(item) => console.log('graph keyword', item)}
-                pagerCurrentPage={this.state.rankingsData.rankingsTableCurrentPage}
-                pagerCurrentSize={this.state.rankingsData.rankingsTablePageSize}
-                pagerTotalPages={this.state.rankingsData.rankingsTableTotalPages}
-                selectAllRows={(current) => RankingsActions.selectAllRows(current)}
-                selectedTags={this.state.rankingsData.rankingsTableSelectedTags}
-                selectKeyword={(keyword) => console.log('keyword select', keyword)}
-                selectRow={(row) => RankingsActions.selectRow(row)}
-                selectTag={(tag) => RankingsActions.selectTag(tag)}
-                tableData={this.state.rankingsData.rankingsTableDataFiltered}
-                tableSettings={this.state.rankingsData.rankingsTableSettings}/>
-            </div>
-            <div style={STYLES.pagerContainer}>
-              <Pager
-                currentPage={this.state.rankingsData.rankingsTableCurrentPage}
-                currentSize={this.state.rankingsData.rankingsTablePageSize}
-                onChange={(values) => RankingsActions.setTableSize(values)}
-                pageSizes={[20, 50, 100]}
-                totalPages={this.state.rankingsData.rankingsTableTotalPages}/>
+              <div style={STYLES.graphContainer}>
+                <img style={STYLES.graph} src="http://placehold.it/1200x500?text=GRAPH!" />
+              </div>
+
+              <div style={STYLES.tableActions}>
+                <div style={STYLES.tableSelect}>
+                  {tableSelectHTML}
+                </div>
+                <div>
+                  {tableButtonHtml}
+                </div>
+              </div>
+
+              <div style={STYLES.baseContainer}>
+                <RankingsTable
+                  allRowsSelected={this.state.rankingsData.rankingsTableAllRowsSelected}
+                  graphKeyword={(item) => console.log('graph keyword', item)}
+                  pagerCurrentPage={this.state.rankingsData.rankingsTableCurrentPage}
+                  pagerCurrentSize={this.state.rankingsData.rankingsTablePageSize}
+                  pagerTotalPages={this.state.rankingsData.rankingsTableTotalPages}
+                  selectAllRows={(current) => RankingsActions.selectAllRows(current)}
+                  selectedTags={this.state.rankingsData.rankingsTableSelectedTags}
+                  selectKeyword={(keyword) => console.log('keyword select', keyword)}
+                  selectRow={(row) => RankingsActions.selectRow(row)}
+                  selectTag={(tag) => RankingsActions.selectTag(tag)}
+                  tableData={this.state.rankingsData.rankingsTableDataFiltered}
+                  tableSettings={this.state.rankingsData.rankingsTableSettings}/>
+              </div>
+              <div style={STYLES.pagerContainer}>
+                <Pager
+                  currentPage={this.state.rankingsData.rankingsTableCurrentPage}
+                  currentSize={this.state.rankingsData.rankingsTablePageSize}
+                  onChange={(values) => RankingsActions.setTableSize(values)}
+                  pageSizes={[20, 50, 100]}
+                  totalPages={this.state.rankingsData.rankingsTableTotalPages}/>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }));
 

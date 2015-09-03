@@ -1,14 +1,15 @@
 "use strict";
 var stats = require("../../build/stats.json");
+var TokenGenerator = require('../../lib/tokenGenerator')
 
 var publicPath = stats.publicPath;
 
 var STYLE_URL;
 var SCRIPT_URL_APP = publicPath + [].concat(stats.assetsByChunkName.app)[0];
-// if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   STYLE_URL = (publicPath + [].concat(stats.assetsByChunkName.app)[1] + "?" + stats.hash);
   SCRIPT_URL_APP += "?" + stats.hash;
-// }
+}
 
 exports.index = function *() {
   this.body = yield this.render("basic", {
@@ -16,5 +17,7 @@ exports.index = function *() {
     commit: stats.appCommit,
     STYLE_URL: STYLE_URL,
     SCRIPT_URL: SCRIPT_URL_APP,
+    LOGIN_URL: process.env.LOGIN_URL || "https://login.mobileapptracking.com",
+    LOGIN_TOKEN: TokenGenerator.generateSsoToken()
   });
 };

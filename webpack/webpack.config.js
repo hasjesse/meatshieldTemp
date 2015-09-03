@@ -61,7 +61,6 @@ export default (options) => {
         service_layer: path.join(__dirname, '../', 'node_modules', 'FnServiceLayer', 'src'),
         utils: path.join(__dirname, '../', 'node_modules', 'delphi-components', 'delphi_components', 'util'),
         node_modules: path.join(__dirname, '../', 'node_modules'),
-       'mdhq-components': path.join(__dirname, '../', 'app', 'components'),
       }
     },
 
@@ -94,13 +93,6 @@ export default (options) => {
           NODE_ENV: JSON.stringify(environment),
         },
       }),
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: "vendor",
-      //   minChunks: Infinity
-      // }),
-      // new ExtractTextPlugin('[name].delphi.css', {
-      //   'allChunks' : true
-      // })
     ],
 
     devServer: {
