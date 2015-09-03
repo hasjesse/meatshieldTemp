@@ -15,17 +15,17 @@ var Button      = require('txl/buttons/Button');
 // Actions
 var KeywordsActions = require('../../actions/KeywordsActions');
 
-require('./KeywordsModal.less')
+require('./KeywordsModal.less');
 
 module.exports = React.createClass({
   'displayName' : 'MDHQKeywordsModal',
   'propTypes' : {
-    'appsData' : React.PropTypes.obj
+    'appsData' : React.PropTypes.object
   },
 
   'getDefaultProps' : function() {
     return {
-      'appsData' : {},
+      'appsData' : {}
     };
   },
 

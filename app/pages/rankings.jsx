@@ -14,6 +14,7 @@ import Pager from '../components/pager/Pager';
 // Composites
 import KeywordsModal from '../composites/keywordsModal/KeywordsModal';
 import RankingsTable from '../composites/rankingsTable/RankingsTable';
+import RankingsTableSettingsModal from '../composites/rankingsSettingsModal/RankingsSettingsModal'
 
 // Delphi
 import TMCNavigation from 'delphi/TMC/TMCNavigation';
@@ -34,13 +35,10 @@ import AppNavigationStore from '../stores/AppNavigationStore';
 
 module.exports = Radium(React.createClass({
   displayName : 'MDHQRankingsPage',
-  propTypes   : {},
   mixins      : [
     Reflux.connect(RankingsStore, 'rankingsData'),
     Reflux.connect(AppNavigationStore, 'appsData')
   ],
-
-  getDefaultProps : function() {},
 
   getInitialState : function () {
     return {
@@ -51,10 +49,10 @@ module.exports = Radium(React.createClass({
   },
 
   componentDidMount : function() {
+    RankingsActions.loadRankingsTableSettings();
     AppNavigationActions.loadAppsWithRegions();
     RankingsActions.loadRankingsTable();
     RankingsActions.loadRankingsTableFilters();
-    RankingsActions.loadRankingsTableSettings();
   },
 
   tableAddTags : function() {
@@ -131,10 +129,9 @@ module.exports = Radium(React.createClass({
     }
     // Show settings or Stop Tracking
     let tableButtonHtml = (
-      <IconButton
-        onClick={()=> console.log('settings clicked')}
-        variant="muted"
-        icon={Gear}/>
+      <RankingsTableSettingsModal
+        tableSettings={this.state.rankingsData.rankingsTableSettings}
+        settingChanged={(settings) => RankingsActions.settingsChanged(settings)}/>
     );
     if(this.state.rankingsData.rankingsTableBulkAction){
       tableButtonHtml = (

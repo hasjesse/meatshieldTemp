@@ -96,13 +96,46 @@ var dummyData = [
 ];
 
 // Table settings sample data
-var tableSettings = {
-  difficulty         : true,
-  estimated_installs : true,
-  organic            : true,
-  rank               : true,
-  volume             : true
-};
+//var tableSettings = {
+//  difficulty         : true,
+//  estimated_installs : true,
+//  organic            : true,
+//  rank               : true,
+//  volume             : true
+//};
+
+var tableSettings = [
+  {
+    checked : true,
+    label   : 'Current Rank',
+    name    : 'Rank',
+    styles  : 'rankCell'
+  },
+  {
+    checked : true,
+    label : 'Difficulty',
+    name : 'Difficulty',
+    styles : 'difficultyCell'
+  },
+  {
+    checked : true,
+    label : 'Volume',
+    name : 'Volume',
+    styles : 'volumeCell'
+  },
+  {
+    checked : true,
+    label   : 'Estimated Installs',
+    name    : 'Est. Installs',
+    styles  : 'installsCell'
+  },
+  {
+    checked : true,
+    label   : '% of Organic Installs',
+    name    : '% of Organic Installs',
+    styles  : 'organicCell'
+  }
+];
 
 var Actions = Reflux.createActions({
   addTagsToKeywords         : {children : ['completed', 'failed']},
@@ -116,7 +149,8 @@ var Actions = Reflux.createActions({
   selectTagDropdown         : {},
   setAddTags                : {},
   setTableSize              : {},
-  stopTrackingKeywords      : {children : ['completed', 'failed']}
+  stopTrackingKeywords      : {children : ['completed', 'failed']},
+  settingsChanged           : {children : ['completed', 'failed']}
 });
 
 Actions.loadRankingsTable.listen(function() {
@@ -152,6 +186,11 @@ Actions.removeTagsFromKeywords.listen(function(keywords) {
   // TODO: hook up to real data
   //return this.completed(tableSettings);
   console.log('remove tags from: ', keywords);
+});
+
+Actions.settingsChanged.listen(function(settings) {
+  // make call to set new settings
+  return this.completed(settings);
 });
 
 module.exports = Actions;

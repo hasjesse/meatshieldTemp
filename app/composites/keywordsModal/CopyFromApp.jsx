@@ -12,7 +12,7 @@ module.exports = React.createClass({
   'displayName' : 'MDHQKeywordsCopyFromApp',
   'propTypes' : {
     'appOnChange'      : React.PropTypes.func,
-    'appsData'         : React.PropTypes.obj,
+    'appsData'         : React.PropTypes.object,
     'checkboxOnChange' : React.PropTypes.func,
     'includeLabels'    : React.PropTypes.bool,
     'radioOnChange'    : React.PropTypes.func,
@@ -20,7 +20,7 @@ module.exports = React.createClass({
     'regionOnChange'   : React.PropTypes.func,
     'replaceStrategy'  : React.PropTypes.string,
     'selectedApp'      : React.PropTypes.string,
-    'selectedRegion'   : React.PropTypes.string,
+    'selectedRegion'   : React.PropTypes.string
   },
 
   'getDefaultProps' : function() {
@@ -34,7 +34,7 @@ module.exports = React.createClass({
       'regionOnChange'   : NOOP,
       'replaceStrategy'  : 'replace',
       'selectedApp'      : '',
-      'selectedRegion'   : '',
+      'selectedRegion'   : ''
     };
   },
 
