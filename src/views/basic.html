@@ -1,4 +1,4 @@
-{% set sitename="React Koa Gulp Mongoose Mocha Demo" %}
+{% set sitename="App Store Analytics" %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,7 @@
 <body>
 <div id="react-app"></div>
   <script type="text/javascript" src={{SCRIPT_URL}}></script>
-  <iframe src="http://login.stage.mobileapptracking.com/auth/frame/demoadv"
+  <iframe src="{{LOGIN_URL}}/auth/frame/{{LOGIN_TOKEN}}"
           width=0
           height=0
           style="visibility: hidden; position:absolute"
@@ -20,5 +20,6 @@
           marginwidth=0
           scrolling=no>
   </iframe>
+  {% include 'partials/loader.html' %}
 </body>
 </html>

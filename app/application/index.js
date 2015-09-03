@@ -4,7 +4,17 @@ import { RouteHandler } from "react-router";
 
 import "matstyle/less/main.less";
 
-let ssoHandlerImported = true;
+import UserActions from '../actions/UserActions';
+
+let ssoHandlerImported = false;
+
+
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
 
 const App = React.createClass({
   displayName : 'App',
@@ -15,7 +25,7 @@ const App = React.createClass({
     router: PropTypes.func,
   },
 
-  // mixins : [RouteHandler.State],
+  mixins : [RouteHandler.State],
 
   getInitialState() {
     return {
@@ -23,9 +33,7 @@ const App = React.createClass({
     };
   },
 
-
   onLoad() {
-    // AuthStore.removeChangeListener(this.onLoad);
     this.setState({
       hasLoaded: true,
     });
@@ -35,9 +43,54 @@ const App = React.createClass({
     let key = this.context.router.getCurrentPath();
 
     if (!ssoHandlerImported) {
-      // this.getPathname() is coming from the Router.State mixin, returns /tmc-privacy-policy when you're on
-      // the Privacy Policy page defined below
-      require('../../lib/ssoHandler');
+      var sessionTokenInQueryString = getParameterByName('session_token');
+      var supportInQueryString = getParameterByName('support');
+      if (sessionTokenInQueryString && supportInQueryString) {
+
+        UserActions.init(sessionTokenInQueryString);
+
+      } else {
+
+        var receiveMessage = event => {
+          var messageData = event.data;
+
+          try {
+            messageData = JSON.parse(messageData);
+          } catch(e) {}
+
+          if (!_.isObject(messageData) || messageData.sender !== 'tune_sso') {
+            return;
+          }
+
+          var userMetadata = {};
+          try {
+            // expected to have the following keys:
+            // tmcEnabled: Boolean, type: String, id: Int, user_id: Int, email: String
+            userMetadata = JSON.parse(
+              // only gets called once, so not pulling these regular expressions out into variables
+              (messageData.user_metadata || '')
+                .replace(/&quot;/g, '"')
+                .replace(/&gt;/g, '>')
+                .replace(/&lt;/g, '<')
+                .replace(/&amp;/g, '&')
+                .replace(/&#x27;/g, '\'')
+            );
+          } catch(e) {}
+
+          // if the server shows no session token, not logged in - redirect back to login
+          if (!messageData.session_token) {
+            window.location = messageData.redirect + window.location.href;
+          }
+
+          UserActions.init(messageData.session_token, userMetadata);
+
+          // stop listening
+          window.removeEventListener('message', receiveMessage);
+        };
+
+        window.addEventListener('message', receiveMessage);
+
+      }
       ssoHandlerImported = true;
     }
 

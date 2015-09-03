@@ -39,7 +39,7 @@ function getLessOptions() {
 function getLessLoaders(env) {
   env = env || 'development';
   var cssLoaders = env === 'production' ?
-    ['style', 'css?minimize'] :
+    ['css?minimize'] :
     ['style', 'css'];
   return cssLoaders.concat([
     'autoprefixer?browsers=last 2 version',

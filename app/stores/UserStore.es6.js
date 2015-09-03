@@ -18,9 +18,9 @@ var UserStore = Reflux.createStore({
 
   onInitCompleted : function(contextData) {
     // cacheId resembles this format: accountId_userId
+
     ClientCache.init(`${_.get(contextData, 'context.id')}_${_.get(contextData, 'context.user_id')}`);
     this.currentContext = contextData;
-    heap.identify({handle : crypto.hash('md5', _.get(contextData, 'user.email'))});
     this.emitChange();
   },
 
