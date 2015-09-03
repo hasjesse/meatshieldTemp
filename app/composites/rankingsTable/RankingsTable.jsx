@@ -57,12 +57,18 @@ export default class MDHQRankingsTable extends MDHQBase {
               name="checked"
               onChange={() => this.allChecked(this.state.allChecked)}/>
           </div>
-          <div style={getHeaderCellStyles('reportCell')}>Report</div>
-          <div style={getHeaderCellStyles('rankCell')}>Rank</div>
-          <div style={getHeaderCellStyles('difficultyCell')}>Difficulty</div>
-          <div style={getHeaderCellStyles('volumeCell')}>Volume</div>
-          <div style={getHeaderCellStyles('installsCell')}>Est. Installs</div>
-          <div style={getHeaderCellStyles('organicCell')}>% of Organic Installs</div>
+          <div key={'reportCell'} style={getHeaderCellStyles('reportCell')}>Report</div>
+          {this.props.tableSettings.map((col, index) => {
+            if(col.checked){
+              return(
+                <div
+                  key={index}
+                  style={getHeaderCellStyles(col.styles)}>
+                  {col.name}
+                </div>
+              );
+            }
+          })}
         </div>
 
         {pagedDataSet.map((data, index) =>{
@@ -75,7 +81,8 @@ export default class MDHQRankingsTable extends MDHQBase {
               selectKeyword={() => this.props.selectKeyword(data)}
               selectRow={() => this.props.selectRow(data)}
               selectTag={(tag) => this.props.selectTag(tag)}
-              styles={STYLES}/>
+              styles={STYLES}
+              tableSettings={this.props.tableSettings} />
           );
         })}
       </div>
@@ -84,17 +91,28 @@ export default class MDHQRankingsTable extends MDHQBase {
 }
 
 MDHQRankingsTable.defaultProps = {
-  checked       : 'false',
-  graphKeyword  : NOOP,
-  selectedTags  : [],
-  selectKeyword : NOOP,
-  selectRow     : NOOP,
-  selectTag     : NOOP,
-  tableData     : [],
-  allRowsSelected : false
+  allRowsSelected : false,
+  checked         : false,
+  graphKeyword    : NOOP,
+  selectedTags    : [],
+  selectKeyword   : NOOP,
+  selectRow       : NOOP,
+  selectTag       : NOOP,
+  tableData       : [],
+  tableSettings   : []
 };
 
-MDHQRankingsTable.propTypes = {};
+MDHQRankingsTable.propTypes = {
+  allRowsSelected : React.PropTypes.bool,
+  checked         : React.PropTypes.bool,
+  graphKeyword    : React.PropTypes.func,
+  selectedTags    : React.PropTypes.array,
+  selectKeyword   : React.PropTypes.func,
+  selectRow       : React.PropTypes.func,
+  selectTag       : React.PropTypes.func,
+  tableData       : React.PropTypes.array,
+  tableSettings   : React.PropTypes.array
+};
 
 const STYLES = {
   container : {

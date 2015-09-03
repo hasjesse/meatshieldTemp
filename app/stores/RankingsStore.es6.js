@@ -16,7 +16,7 @@ var RankingsStore = Reflux.createStore({
     this.rankingsTablePageSize        = 20;
     this.rankingsTableSelectedRows    = [];
     this.rankingsTableSelectedTags    = [];
-    this.rankingsTableSettings        = {};
+    this.rankingsTableSettings        = [];
     this.rankingsTableTotalPages      = 1;
   },
 
@@ -229,6 +229,11 @@ var RankingsStore = Reflux.createStore({
 
   onRemoveTagsFromKeywordsCompleted : function() {
     console.log('remove tags store');
+  },
+
+  onSettingsChangedCompleted : function(settings) {
+    this.rankingsTableSettings = settings;
+    this.emitChange();
   },
 
   emitChange : function(action) {

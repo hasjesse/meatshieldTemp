@@ -113,17 +113,39 @@ export default class MDHQRankingsTableRow extends MDHQBase {
             </div>
           </div>
         </div>
-        <div style={getCellStyles('rankCell', STYLES)}>{this.props.rowData.rank}</div>
-        <div style={getCellStyles('difficultyCell', STYLES)}>
-          <ProgressBar
-            fillColor={colors.neutral['700']}
-            percentage={this.props.rowData.difficulty}
-            size="large"/>
-          {this.props.rowData.difficulty}
-        </div>
-        <div style={getCellStyles('volumeCell', STYLES)}>{this.props.rowData.volume}</div>
-        <div style={getCellStyles('installsCell', STYLES)}>{this.props.rowData.organic_installs.estimated_count}</div>
-        <div style={getCellStyles('organicCell', STYLES)}>{this.props.rowData.organic_installs.percentage}%</div>
+        {this.props.tableSettings.map((col, index) => {
+          if(col.name === 'Rank' && col.checked){
+            return(
+              <div style={getCellStyles('rankCell', STYLES)} key={index}>{this.props.rowData.rank}</div>
+            );
+          }
+          if(col.name === 'Difficulty' && col.checked){
+            return(
+              <div style={getCellStyles('difficultyCell', STYLES)} key={index}>
+                <ProgressBar
+                  fillColor={colors.neutral['700']}
+                  percentage={this.props.rowData.difficulty}
+                  size="large"/>
+                {this.props.rowData.difficulty}
+              </div>
+            );
+          }
+          if(col.name === 'Volume' && col.checked){
+            return(
+              <div style={getCellStyles('volumeCell', STYLES)} key={index}>{this.props.rowData.volume}</div>
+            );
+          }
+          if(col.name === 'Est. Installs' && col.checked){
+            return(
+              <div style={getCellStyles('installsCell', STYLES)} key={index}>{this.props.rowData.organic_installs.estimated_count}</div>
+            );
+          }
+          if(col.name === '% of Organic Installs' && col.checked){
+            return(
+              <div style={getCellStyles('organicCell', STYLES)} key={index}>{this.props.rowData.organic_installs.percentage}%</div>
+            );
+          }
+        })}
       </div>
     );
   }

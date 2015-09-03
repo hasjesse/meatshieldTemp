@@ -7,13 +7,13 @@ module.exports = React.createClass({
   'displayName' : 'MDHQKeywordsBulkUpload',
   'propTypes' : {
     'filepath' : React.PropTypes.string,
-    'onChange' : React.PropTypes.func,
+    'onChange' : React.PropTypes.func
   },
 
   'getDefaultProps' : function() {
     return {
       'filepath' : '',
-      'onChange' : NOOP,
+      'onChange' : NOOP
     };
   },
 
