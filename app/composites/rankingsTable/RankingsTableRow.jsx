@@ -8,15 +8,15 @@ import _ from 'lodash';
 import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
-import Checkbox from '../../components/inputs/Checkbox';
+// Components
 import Tag from '../../components/tags/Tag';
 import ProgressBar from '../../components/progress/ProgressBar';
 
 // TXL
 import {GraphBar2} from 'txl/icons/Icons';
-import IconButton from 'txl/buttons/IconButton'
+import IconButton from 'txl/buttons/IconButton';
+import Checkbox from 'txl/input-fields/Checkbox';
 
-import Icon from 'delphi/icon/Icon';
 
 import './RankingsTable.less';
 
@@ -93,9 +93,11 @@ export default class MDHQRankingsTableRow extends MDHQBase {
       <div style={STYLES.row}>
         <div style={getCellStyles('checkCell', STYLES)}>
           <Checkbox
+            onChange={() => this.props.selectRow()}
             checked={this.props.rowData.checked}
-            name="checked"
-            onChange={() => this.props.selectRow()}/>
+            disabled={false}
+            value={this.props.rowData.search_term}
+            name={this.props.rowData.search_term} />
         </div>
         <div style={getCellStyles('reportCell', STYLES)}>
           <div style={STYLES.reportTop}>

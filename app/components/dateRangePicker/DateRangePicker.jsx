@@ -1,21 +1,19 @@
-// TODO: add left or right alignment for the dropdown. So when implemented you can decide where the dropdown shows up.
-
 import React from 'react';
 import Radium from 'radium';
 import moment from 'moment';
 import _ from 'lodash';
 
-
 import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
-import Icon from 'delphi/icon/Icon';
-
 // TXL
+import {CalendarOutline} from 'txl/icons/Icons';
 import Button from 'txl/buttons/Button'
 import CalendarPickerWithPresets from 'txl/calendar-picker/CalendarPickerWithPresets';
 
 import './DatePicker.less';
+
+// TODO: clicking outside the component does not close correctly there is some weirdness around this
 
 @Radium
 export default class MDHQDateRangePicker extends MDHQBase {
@@ -91,7 +89,7 @@ export default class MDHQDateRangePicker extends MDHQBase {
         <div className='datePicker'>
           <div className='datePicker-input-container' ref="DateRangePickerFeild" onClick={this._toggleDropdown}>
 
-            <Icon style={STYLES.icon} icon="calendar-outline" />
+            <CalendarOutline />
 
             <span className='datePicker-date-wrapper'>
               {this.props.startDate.format('MMMM Do')} - {this.props.endDate.format('MMMM Do, YYYY')}

@@ -1,12 +1,14 @@
 var React = require('react');
 
-var Button = require('delphi/buttons/Button');
-var Icon   = require('delphi/icon/Icon');
+// Components
+var Modal       = require('../../components/modal/Modal');
+var DotLoader   = require('../../components/loaders/DotLoader');
+var ProgressBar = require('../../components/progress/ProgressBar');
+var Select      = require('../../components/select/Select');
 
-var Modal       = require('../modal/Modal');
-var DotLoader   = require('../loaders/DotLoader');
-var ProgressBar = require('../progress/ProgressBar');
-var Select      = require('../select/Select');
+// TXL
+import {Gear} from 'txl/icons/Icons';
+import Button from 'txl/buttons/Button'
 
 require('./exportModal.less')
 

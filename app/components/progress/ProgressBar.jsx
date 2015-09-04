@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var PureRenderMixin = React.addons.PureRenderMixin;
+
 require('./ProgressBar.less');
 
 module.exports = React.createClass({

@@ -22,8 +22,8 @@ import TMCNavigation from 'delphi/TMC/TMCNavigation';
 
 // TXL
 import {Gear} from 'txl/icons/Icons';
-import Button from 'txl/buttons/Button'
-import IconButton from 'txl/buttons/IconButton'
+import Button from 'txl/buttons/Button';
+import IconButton from 'txl/buttons/IconButton';
 
 // Actions
 import RankingsActions from '../actions/RankingsActions';

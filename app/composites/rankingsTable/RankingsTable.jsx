@@ -5,11 +5,11 @@ import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
 // Components
-import Checkbox from '../../components/inputs/Checkbox';
 import Tag from '../../components/tags/Tag';
 
 // TXL
 import {Gear} from 'txl/icons/Icons';
+import Checkbox from 'txl/input-fields/Checkbox';
 
 import RankingsTableRow from './RankingsTableRow';
 import './RankingsTable.less';
@@ -50,9 +50,11 @@ export default class MDHQRankingsTable extends MDHQBase {
         <div style={STYLES.header}>
           <div style={getHeaderCellStyles('checkCell')}>
             <Checkbox
+              onChange={() => this.allChecked(this.state.allChecked)}
               checked={this.props.allRowsSelected}
-              name="checked"
-              onChange={() => this.allChecked(this.state.allChecked)}/>
+              disabled={false}
+              value="AllChecked"
+              name="AllChecked" />
           </div>
           <div key={'reportCell'} style={getHeaderCellStyles('reportCell')}>Report</div>
           {this.props.tableSettings.map((col, index) => {
@@ -144,7 +146,6 @@ const STYLES = {
   reportTop : {
     alignItems : 'center',
     display : 'flex',
-    padding : '2px 0',
     width : '100%'
   },
   reportKeywordTitle : {

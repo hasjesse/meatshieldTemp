@@ -1,10 +1,10 @@
 var React = require('react/addons');
 
+// TXL
 var IconButton = require('txl/buttons/IconButton');
 var {ArrowRight, ArrowLeft} = require('txl/icons/Icons');
 
 var PagePicker = require('./PagePicker');
-
 
 module.exports = React.createClass({
   'displayName' : 'PagerControl',
