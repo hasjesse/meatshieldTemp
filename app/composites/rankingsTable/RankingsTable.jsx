@@ -1,20 +1,17 @@
-
-// TODO: add left or right alignment for the dropdown. So when implemented you can decide where the dropdown shows up.
-
 import React from 'react';
 import Radium from 'radium';
 
 import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
+// Components
 import Checkbox from '../../components/inputs/Checkbox';
 import Tag from '../../components/tags/Tag';
-
-import RankingsTableRow from './RankingsTableRow';
 
 // TXL
 import {Gear} from 'txl/icons/Icons';
 
+import RankingsTableRow from './RankingsTableRow';
 import './RankingsTable.less';
 
 function getHeaderCellStyles(cell) {
