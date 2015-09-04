@@ -12,6 +12,10 @@ import Checkbox from '../../components/inputs/Checkbox';
 import Tag from '../../components/tags/Tag';
 import ProgressBar from '../../components/progress/ProgressBar';
 
+// TXL
+import {GraphBar2} from 'txl/icons/Icons';
+import IconButton from 'txl/buttons/IconButton'
+
 import Icon from 'delphi/icon/Icon';
 
 import './RankingsTable.less';
@@ -100,10 +104,11 @@ export default class MDHQRankingsTableRow extends MDHQBase {
               style={STYLES.reportKeywordTitle}>
               {this.props.rowData.search_term}
             </h3>
-              <span
-                onClick={() => this.props.graphKeyword()}
-                style={STYLES.reportGraphIcon}>
-                <Icon className="m-rankings-graph-icon" icon={'graph-bar2'}/>
+              <span style={STYLES.reportGraphIcon}>
+                <IconButton
+                  onClick={() => this.props.graphKeyword()}
+                  variant="plain"
+                  icon={GraphBar2}/>
               </span>
           </div>
           <div>
