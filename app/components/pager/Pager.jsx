@@ -2,7 +2,6 @@ var React = require('react');
 
 var PagerControl = require('./PagerControl');
 var PageSizeControl = require('./PageSizeControl');
-
 require('./PagerStyles.less');
 
 module.exports = React.createClass({

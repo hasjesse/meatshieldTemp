@@ -11,7 +11,7 @@ function getStyles(props) {
   );
 }
 
-@Radium // order is important here, radium will improperly apply hover if reversed
+@Radium
 export default class MDHQCard extends MDHQBase {
 
   render() {
@@ -28,12 +28,12 @@ export default class MDHQCard extends MDHQBase {
 
 MDHQCard.defaultProps = {
   elevation    : 0,
-  onClick      : NOOP,
+  onClick      : NOOP
 };
 
 MDHQCard.propTypes = {
   disabled   : React.PropTypes.number,
-  onClick    : React.PropTypes.func,
+  onClick    : React.PropTypes.func
 };
 
 const STYLES = {

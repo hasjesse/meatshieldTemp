@@ -2,9 +2,12 @@ var React = require('react');
 
 var MDHQBase, {autobind, NOOP} = require('../../components/base/Base');
 
-var Select      = require('../../components/select/Select');
-var Checkbox    = require('../../components/inputs/Checkbox');
-var RadioButton = require('../../components/inputs/RadioButton');
+// Components
+var Select = require('../../components/select/Select');
+
+// TXL
+var Checkbox = require('txl/input-fields/Checkbox');
+var Radio = require('txl/input-fields/Radio');
 
 require('./KeywordsModal.less')
 
@@ -57,13 +60,13 @@ module.exports = React.createClass({
     return radioButtons.map((item, index) => {
       return(
         <div className="m-keywords-modal-radio-button">
-          <RadioButton
-              key={index}
-              name={item.name}
-              label={item.label}
-              onChange={this.props.radioOnChange}
-              checked={this.props.replaceStrategy == item.value}
-              value={item.value}/>
+          <Radio
+            checked={this.props.replaceStrategy == item.value}
+            key={index}
+            labelText={item.label}
+            name={item.name}
+            onChange={this.props.radioOnChange}
+            value={item.value} />
         </div>
       );
     });
@@ -100,8 +103,9 @@ module.exports = React.createClass({
         <div className="m-keywords-modal-labels-checkbox">
           <Checkbox
             checked={this.props.includeLabels}
-            label="Include keyword labels"
+            labelText="Include keyword labels"
             name="keyword-labels-checkbox"
+            value="keyword-labels-checkbox"
             onChange={this.props.checkboxOnChange}/>
         </div>
 

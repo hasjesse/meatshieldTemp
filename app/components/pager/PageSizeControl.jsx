@@ -1,8 +1,10 @@
 var React = require('react/addons');
 var _ = require('lodash');
 
+// Delphi TODO: Remove this once we have a TXL or MDHQ version
 var ButtonGroup = require('delphi/buttons/ButtonGroup');
 
+// TXL
 var Button = require('txl/buttons/Button');
 
 module.exports = React.createClass({
@@ -57,16 +59,3 @@ module.exports = React.createClass({
     );
   }
 });
-
-
-//<Button
-//  importance={this.props.currentSize === size ? 'secondary' : 'secondary-alt'}
-//  key={index}
-//  onClick={() => {
-//                  this.props.onChange({
-//                    'current'  : size,
-//                    'previous' : this.props.currentSize
-//                  });
-//                }}>
-//  {size}
-//</Button>

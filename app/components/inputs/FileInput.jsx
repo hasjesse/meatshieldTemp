@@ -5,8 +5,9 @@ import _ from 'lodash';
 import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
+// TXL
+import Export from 'txl/icons/icons/Export';
 import Button from 'txl/buttons/Button';
-import {Export} from 'txl/icons/Icons';
 
 @Radium
 export default class FileInput extends MDHQBase {

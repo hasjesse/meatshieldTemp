@@ -6,12 +6,12 @@ import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
 // Components
-import Checkbox from '../../components/inputs/Checkbox';
 import Modal from '../../components/modal/Modal';
 
 // TXL
-import IconButton from 'txl/buttons/IconButton'
-import {Gear} from 'txl/icons/Icons';
+import Gear from 'txl/icons/icons/Gear';
+import IconButton from 'txl/buttons/IconButton';
+import Checkbox from 'txl/input-fields/Checkbox';
 
 @Radium
 export default class MDHQRankingsTableSettingsModal extends MDHQBase {
@@ -71,9 +71,11 @@ export default class MDHQRankingsTableSettingsModal extends MDHQBase {
                   <li key={index}>
                     <Checkbox
                       checked={setting.checked}
-                      label={setting.label}
+                      disabled={false}
+                      labelText={setting.label}
                       name={setting.label}
-                      onChange={() => this.settingClicked(setting)}/>
+                      onChange={() => this.settingClicked(setting)}
+                      value={setting.label} />
                   </li>
                 );
               })}
@@ -84,9 +86,11 @@ export default class MDHQRankingsTableSettingsModal extends MDHQBase {
                   <li key={index}>
                     <Checkbox
                       checked={setting.checked}
-                      label={setting.label}
+                      disabled={false}
+                      labelText={setting.label}
                       name={setting.label}
-                      onChange={() => this.settingClicked(setting)}/>
+                      onChange={() => this.settingClicked(setting)}
+                      value={setting.label} />
                   </li>
                 );
               })}

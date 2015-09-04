@@ -2,7 +2,8 @@ var React      = require('react');
 var classnames = require('classnames');
 var _          = require('lodash');
 
-var Button = require('delphi/buttons/Button');
+// TXL
+var Button = require('txl/buttons/Button');
 
 require('./modal.less');
 
@@ -50,13 +51,15 @@ module.exports = React.createClass({
             <div className="m-modal-footer-container">
               <Button
                 disabled={this.props.confirmDisabled}
-                importance="primary"
-                onClick={this.props.confirmClick}>
+                onClick={this.props.confirmClick}
+                size="large"
+                variant="accent">
                 {this.props.confirmText}
               </Button>
               <Button
-                importance="secondary"
-                onClick={this.props.cancelClick}>
+                onClick={this.props.cancelClick}
+                size="large"
+                variant="muted">
                 {this.props.cancelText}
               </Button>
             </div>
