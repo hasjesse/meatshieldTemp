@@ -9,7 +9,7 @@ import {gridUnits as gu, combineStyles, colors} from '../../components/base/styl
 import Modal from '../../components/modal/Modal';
 
 // TXL
-import {Gear} from 'txl/icons/Icons';
+import Gear from 'txl/icons/icons/Gear';
 import IconButton from 'txl/buttons/IconButton';
 import Checkbox from 'txl/input-fields/Checkbox';
 

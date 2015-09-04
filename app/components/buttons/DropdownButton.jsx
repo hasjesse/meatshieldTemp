@@ -7,7 +7,8 @@ import Radium from 'radium';
 import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
-import Icon from 'delphi/icon/Icon';
+// TXL
+import ArrowDown from 'txl/icons/icons/ArrowDown';
 
 import './DropdownButton.less';
 
@@ -80,7 +81,7 @@ export default class MDHQDropdownButton extends MDHQBase {
           ref="DropdownButtonToggle"
           style={getStyles(this.props, 'rightBtn')}
           onClick={this._toggleDropdown}>
-          <Icon className="m-dropdown-button-icon" icon={this.props.icon}/>
+          <ArrowDown />
         </button>
         {this.state.dropdownOpen &&
         <div
@@ -97,7 +98,6 @@ export default class MDHQDropdownButton extends MDHQBase {
 
 MDHQDropdownButton.defaultProps = {
   disabled : false,
-  icon     : 'arrow-down',
   onClick  : NOOP,
   size     : 'standard',
   variant  : 'neutral'
@@ -106,7 +106,6 @@ MDHQDropdownButton.defaultProps = {
 MDHQDropdownButton.propTypes = {
   name       : React.PropTypes.string.isRequired,
   disabled   : React.PropTypes.bool,
-  icon       : React.PropTypes.string,
   onClick    : React.PropTypes.func,
   size       : React.PropTypes.oneOf(['standard', 'large']),
   variant    : React.PropTypes.oneOf(['accent', 'neutral', 'muted', 'plain'])
@@ -185,24 +184,24 @@ const STYLES = {
   },
   // Dropdown Styles
   dropdownContainer : {
-    backgroundColor: colors.neutral['0'],
-    border: '1px solid #e3eced',
-    boxShadow: '0 2px 8px #e3eced',
-    color: '#2b3b49',
-    padding: '10px',
-    position: 'absolute',
-    right: '1px',
-    top: '40px',
-    width: '200px',
-    zIndex: '50'
+    backgroundColor : colors.neutral['0'],
+    border          : '1px solid #e3eced',
+    boxShadow       : `0 2px 2px rgba(13, 16, 23, 0.3)`,
+    color           : '#2b3b49',
+    padding         : '10px',
+    position        : 'absolute',
+    right           : '1px',
+    top             : '40px',
+    width           : '200px',
+    zIndex          : '50'
   },
   calloutArrow : {
     backgroundColor : 'white',
-    height : '14px',
-    position : 'absolute',
-    right : '9px',
-    top : '-7px',
-    transform : 'rotate(45deg)',
-    width : '14px'
+    height          : '14px',
+    position        : 'absolute',
+    right           : '9px',
+    top             : '-7px',
+    transform       : 'rotate(45deg)',
+    width           : '14px'
   }
 }

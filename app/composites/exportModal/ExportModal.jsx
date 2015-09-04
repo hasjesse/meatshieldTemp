@@ -7,7 +7,7 @@ var ProgressBar = require('../../components/progress/ProgressBar');
 var Select      = require('../../components/select/Select');
 
 // TXL
-import {Gear} from 'txl/icons/Icons';
+import Gear from 'txl/icons/icons/Gear';
 import Button from 'txl/buttons/Button'
 
 require('./exportModal.less')

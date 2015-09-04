@@ -8,7 +8,7 @@ import {gridUnits as gu, combineStyles, colors} from '../../components/base/styl
 import Tag from '../../components/tags/Tag';
 
 // TXL
-import {Gear} from 'txl/icons/Icons';
+import Gear from 'txl/icons/icons/Gear';
 import Checkbox from 'txl/input-fields/Checkbox';
 
 import RankingsTableRow from './RankingsTableRow';

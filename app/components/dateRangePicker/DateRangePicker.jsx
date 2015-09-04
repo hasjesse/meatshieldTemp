@@ -7,7 +7,7 @@ import MDHQBase, {autobind, NOOP} from '../base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
 
 // TXL
-import {CalendarOutline} from 'txl/icons/Icons';
+import CalendarOutline from 'txl/icons/icons/CalendarOutline';
 import Button from 'txl/buttons/Button'
 import CalendarPickerWithPresets from 'txl/calendar-picker/CalendarPickerWithPresets';
 

@@ -13,7 +13,7 @@ import Tag from '../../components/tags/Tag';
 import ProgressBar from '../../components/progress/ProgressBar';
 
 // TXL
-import {GraphBar2} from 'txl/icons/Icons';
+import GraphBar2 from 'txl/icons/icons/GraphBar2';
 import IconButton from 'txl/buttons/IconButton';
 import Checkbox from 'txl/input-fields/Checkbox';
 

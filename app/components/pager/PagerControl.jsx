@@ -2,7 +2,8 @@ var React = require('react/addons');
 
 // TXL
 var IconButton = require('txl/buttons/IconButton');
-var {ArrowRight, ArrowLeft} = require('txl/icons/Icons');
+var ArrowRight = require('txl/icons/icons/ArrowRight');
+var ArrowLeft = require('txl/icons/icons/ArrowLeft');
 
 var PagePicker = require('./PagePicker');
 

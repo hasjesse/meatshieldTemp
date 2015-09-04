@@ -58,7 +58,7 @@ module.exports = React.createClass({
 
   '_handleRadioClick' : function(e) {
     this.setState({
-      'replaceStrategy' : e.target.value
+      'replaceStrategy' : e.value
     });
   },
 
