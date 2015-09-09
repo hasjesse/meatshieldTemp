@@ -139,6 +139,7 @@ var tableSettings = [
 
 var Actions = Reflux.createActions({
   addTagsToKeywords         : {children : ['completed', 'failed']},
+  graphKeyword              : {},
   loadRankingsTable         : {children : ['completed', 'failed']},
   loadRankingsTableFilters  : {},
   loadRankingsTableSettings : {children : ['completed', 'failed']},
@@ -149,8 +150,8 @@ var Actions = Reflux.createActions({
   selectTagDropdown         : {},
   setAddTags                : {},
   setTableSize              : {},
-  stopTrackingKeywords      : {children : ['completed', 'failed']},
-  settingsChanged           : {children : ['completed', 'failed']}
+  settingsChanged           : {children : ['completed', 'failed']},
+  stopTrackingKeywords      : {children : ['completed', 'failed']}
 });
 
 Actions.loadRankingsTable.listen(function() {
@@ -191,6 +192,12 @@ Actions.removeTagsFromKeywords.listen(function(keywords) {
 Actions.settingsChanged.listen(function(settings) {
   // make call to set new settings
   return this.completed(settings);
+});
+
+Actions.graphKeyword.listen(function(item) {
+  // TODO: hook up to real data
+  //return this.completed(tableSettings);
+  console.log('graph this: ', item);
 });
 
 module.exports = Actions;
