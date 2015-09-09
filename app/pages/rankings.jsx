@@ -238,7 +238,7 @@ module.exports = Radium(React.createClass({
               <div style={STYLES.baseContainer}>
                 <RankingsTable
                   allRowsSelected={this.state.rankingsData.rankingsTableAllRowsSelected}
-                  graphKeyword={(item) => console.log('graph keyword', item)}
+                  graphKeyword={(item) => RankingsActions.graphKeyword(item)}
                   pagerCurrentPage={this.state.rankingsData.rankingsTableCurrentPage}
                   pagerCurrentSize={this.state.rankingsData.rankingsTablePageSize}
                   pagerTotalPages={this.state.rankingsData.rankingsTableTotalPages}
