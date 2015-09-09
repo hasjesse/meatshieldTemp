@@ -13,6 +13,7 @@ import Select from '../components/select/Select';
 import Pager from '../components/pager/Pager';
 
 // Composites
+import SideNavigation from '../composites/sideNavigation/SideNavigation';
 import KeywordsModal from '../composites/keywordsModal/KeywordsModal';
 import RankingsTable from '../composites/rankingsTable/RankingsTable';
 import RankingsTableSettingsModal from '../composites/rankingsSettingsModal/RankingsSettingsModal'
@@ -182,14 +183,17 @@ module.exports = Radium(React.createClass({
     } else {
       return (
         <div data-component="RankingsPage">
-          <TMCNavigation
-            productLinks = {productLinks}
-            companyName = {this.state.userData.context.account.name}
-            onLogout={NOOP}/>
+          <div style={STYLES.navigationContainer}>
+            <TMCNavigation
+              productLinks = {productLinks}
+              companyName = {this.state.userData.context.account.name}
+              onLogout={NOOP}/>
+          </div>
+
           <div style={STYLES.pageContainer}>
 
             <div style={STYLES.navContainer}>
-              <h2>Nav Area</h2>
+              <SideNavigation product="TMC"/>
             </div>
 
             <div style={STYLES.contentContainer}>
@@ -267,17 +271,23 @@ module.exports = Radium(React.createClass({
 }));
 
 const STYLES = {
+  navigationContainer : {
+    position : 'fixed',
+    width    : '100%',
+    zIndex   : '99'
+  },
   pageContainer : {
     display  : 'flex',
-    margin   : '0 auto',
     maxWidth : '1600px',
     minWidth : '1200px'
   },
   navContainer : {
-    width : '200px'
+    marginTop : gu(13),
+    position  : 'fixed',
+    width     : '200px'
   },
   contentContainer : {
-    margin  : '20px 0',
+    margin  : `${gu(17)} 0 ${gu(4)} ${gu(40)}`,
     padding : `0 ${gu(4)}`,
     width   : '100%'
   },
