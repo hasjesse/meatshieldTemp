@@ -95,15 +95,6 @@ var dummyData = [
   }
 ];
 
-// Table settings sample data
-//var tableSettings = {
-//  difficulty         : true,
-//  estimated_installs : true,
-//  organic            : true,
-//  rank               : true,
-//  volume             : true
-//};
-
 var tableSettings = [
   {
     checked : true,

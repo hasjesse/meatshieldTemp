@@ -9,7 +9,7 @@ export default class AnonymousLayout extends Component {
 
   render() {
     return (
-      <RouteHandler />
+      <div className="blablablabla"><RouteHandler /></div>
     );
   }
 }

@@ -11,12 +11,13 @@ import DropdownButton from '../components/buttons/DropdownButton';
 import DateRangePicker from '../components/dateRangePicker/DateRangePicker';
 import Select from '../components/select/Select';
 import Pager from '../components/pager/Pager';
+import AppChooser from '../components/appChooser/AppChooser';
 
 // Composites
 import SideNavigation from '../composites/sideNavigation/SideNavigation';
 import KeywordsModal from '../composites/keywordsModal/KeywordsModal';
 import RankingsTable from '../composites/rankingsTable/RankingsTable';
-import RankingsTableSettingsModal from '../composites/rankingsSettingsModal/RankingsSettingsModal'
+import RankingsTableSettingsModal from '../composites/rankingsSettingsModal/RankingsSettingsModal';
 
 // Delphi
 import TMCNavigation from 'delphi/TMC/TMCNavigation';
@@ -118,7 +119,6 @@ module.exports = Radium(React.createClass({
     // Show filters or add tags
     let tableSelectHTML = (
       <Select
-        disabled={false}
         multiSelect={true}
         noResultsText={'Sorry, there are no results.'}
         optionSelected={(allSelected) => RankingsActions.selectTagDropdown(allSelected)}
@@ -185,19 +185,19 @@ module.exports = Radium(React.createClass({
         <div data-component="RankingsPage">
           <div style={STYLES.navigationContainer}>
             <TMCNavigation
-              productLinks = {productLinks}
-              companyName = {this.state.userData.context.account.name}
+              productLinks= {productLinks}
+              companyName= {this.state.userData.context.account.name}
               onLogout={NOOP}/>
+          </div>
+          <div style={STYLES.sideNavContainer}>
+            <SideNavigation product="TMC"/>
           </div>
 
           <div style={STYLES.pageContainer}>
 
-            <div style={STYLES.navContainer}>
-              <SideNavigation product="TMC"/>
-            </div>
+            <AppChooser />
 
             <div style={STYLES.contentContainer}>
-
               <div style={STYLES.pageHeadingContainer}>
                 <div style={STYLES.pageTitleContainer}>
                   <h1 style={STYLES.pageTitle}>Top Charts and Keywords</h1>
@@ -274,21 +274,25 @@ const STYLES = {
   navigationContainer : {
     position : 'fixed',
     width    : '100%',
-    zIndex   : '99'
+    zIndex   : '100'
   },
   pageContainer : {
-    display  : 'flex',
-    maxWidth : '1600px',
-    minWidth : '1200px'
+    display       : 'flex',
+    flexDirection : 'column',
+    marginLeft    : gu(40),
+    maxWidth      : '1600px',
+    minWidth      : '1000px',
+    position      : 'relative',
+    top           : gu(13)
   },
-  navContainer : {
-    marginTop : gu(13),
+  sideNavContainer : {
     position  : 'fixed',
-    width     : '200px'
+    top       : gu(13),
+    width     : '200px',
+    zIndex    : '100'
   },
   contentContainer : {
-    margin  : `${gu(17)} 0 ${gu(4)} ${gu(40)}`,
-    padding : `0 ${gu(4)}`,
+    padding : gu(4),
     width   : '100%'
   },
   pageHeadingContainer : {
