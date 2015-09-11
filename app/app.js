@@ -1,10 +1,12 @@
 import React from "react";
 import Router, { Route, DefaultRoute, NotFoundRoute, Redirect } from "react-router";
 
-import { Anonymous as AnonymousLayout } from "./layouts";
-
 import Application from "./application";
 
+// Layouts
+import WithSubNavigation from "./layouts/WithSubNavigation";
+
+// Pages
 import NotFoundPage from "./pages/notfound";
 import NullPage from "./pages/null";
 
@@ -14,7 +16,8 @@ const container = document.getElementById("react-app");
 
 const routes = (
   <Route handler={Application}>
-    <Route name="rankings" path="/" handler={RankingsPage}>
+    <Route name="index" path="/" handler={WithSubNavigation}>
+      <DefaultRoute name="rankings" handler={RankingsPage} />
       <NotFoundRoute handler={NotFoundPage} />
     </Route>
   </Route>

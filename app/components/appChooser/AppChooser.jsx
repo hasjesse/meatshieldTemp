@@ -25,7 +25,6 @@ export default class AppChooser extends MDHQBase {
   }
 
   render() {
-
     return (
       <div style={STYLES.appChooserContainer}>
         <div style={combineStyles(STYLES.select, STYLES.selectApp)}>

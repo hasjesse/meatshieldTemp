@@ -49,10 +49,10 @@ module.exports = Radium(React.createClass({
 
   getInitialState : function () {
     return {
-      appsData: AppNavigationStore.getExposedData(),
+      appsData     : AppNavigationStore.getExposedData(),
       rankingsData : RankingsStore.getExposedData(),
       selectedTags : [],
-      userData: UserStore.getExposedData(),
+      userData     : UserStore.getExposedData()
     };
   },
 
@@ -60,24 +60,20 @@ module.exports = Radium(React.createClass({
     var userDataUnsubscribe;
 
     var afterUserLoaded = (userData, error) => {
-
       if (window.loadingStateMessage) {
-         window.loadingStateMessage.hide();
+        window.loadingStateMessage.set('Loading Top Charts and Keywords...');
       }
-
-      AppNavigationActions.loadAppsWithRegions();
       RankingsActions.loadRankingsTable();
       RankingsActions.loadRankingsTableFilters();
       RankingsActions.loadRankingsTableSettings();
-
-      if (userDataUnsubscribe) {
-        userDataUnsubscribe();
-      }
     };
 
-    if (window.loadingStateMessage) {
-      window.loadingStateMessage.hide();
-    }
+    var rankingData = RankingsStore.listen(() => {
+      if (window.loadingStateMessage) {
+        window.loadingStateMessage.hide();
+      }
+      rankingData();
+    });
 
     if (_.isEmpty(UserStore.getExposedData().context.account)) {
       userDataUnsubscribe = UserStore.listen(afterUserLoaded);
@@ -108,13 +104,6 @@ module.exports = Radium(React.createClass({
       {label: 'Old', value: 'old'},
       {label: 'Phrase', value: 'phrase'},
       {label: 'Title', value: 'title'}
-    ];
-    // TMC header links
-    let productLinks = [
-      {
-        'name' : 'Mobile App Tracking',
-        'url'  : `https://login.mobileapptracking.com?redirectUrl=https://platform.mobileapptracking.com/handler/authentication/loginViaSessionToken`
-      }
     ];
     // Show filters or add tags
     let tableSelectHTML = (
@@ -178,119 +167,80 @@ module.exports = Radium(React.createClass({
       );
     }
 
-    if (!this.state.userData.context.account) {
-      return (null);
-    } else {
-      return (
-        <div data-component="RankingsPage">
-          <div style={STYLES.navigationContainer}>
-            <TMCNavigation
-              productLinks= {productLinks}
-              companyName= {this.state.userData.context.account.name}
-              onLogout={NOOP}/>
-          </div>
-          <div style={STYLES.sideNavContainer}>
-            <SideNavigation product="TMC"/>
+    return (
+      <div data-component="RankingsPage">
+        <div style={STYLES.contentContainer}>
+          <div style={STYLES.pageHeadingContainer}>
+            <div style={STYLES.pageTitleContainer}>
+              <h1 style={STYLES.pageTitle}>Top Charts and Keywords</h1>
+            </div>
+            <div style={STYLES.headerButtons}>
+              <KeywordsModal
+                appsData={this.state.appsData} />
+            </div>
           </div>
 
-          <div style={STYLES.pageContainer}>
-
-            <AppChooser />
-
-            <div style={STYLES.contentContainer}>
-              <div style={STYLES.pageHeadingContainer}>
-                <div style={STYLES.pageTitleContainer}>
-                  <h1 style={STYLES.pageTitle}>Top Charts and Keywords</h1>
-                </div>
-                <div style={STYLES.headerButtons}>
-                  <KeywordsModal
-                    appsData={this.state.appsData} />
-                </div>
+          <div style={STYLES.subHeaderContainer}>
+            <h2>Performance Trends</h2>
+            <div style={STYLES.subHeaderActions}>
+              <div style={STYLES.graphDateRange}>
+                <DateRangePicker
+                  applyDate={(date) => console.log('apply date: ', date)}/>
               </div>
-
-              <div style={STYLES.subHeaderContainer}>
-                <h2>Performance Trends</h2>
-                <div style={STYLES.subHeaderActions}>
-                  <div style={STYLES.graphDateRange}>
-                    <DateRangePicker
-                      applyDate={(date) => console.log('apply date: ', date)}/>
-                  </div>
-                  <div style={STYLES.savedView}>
-                    <DropdownButton
-                      size="standard"
-                      variant="muted"
-                      name="Saved View">
-                      <p>stuff</p>
-                    </DropdownButton>
-                  </div>
-                </div>
-              </div>
-
-              <div style={STYLES.graphContainer}>
-                <img style={STYLES.graph} src="http://placehold.it/1200x500?text=GRAPH!" />
-              </div>
-
-              <div style={STYLES.tableActions}>
-                <div style={STYLES.tableSelect}>
-                  {tableSelectHTML}
-                </div>
-                <div>
-                  {tableButtonHtml}
-                </div>
-              </div>
-
-              <div style={STYLES.baseContainer}>
-                <RankingsTable
-                  allRowsSelected={this.state.rankingsData.rankingsTableAllRowsSelected}
-                  graphKeyword={(item) => RankingsActions.graphKeyword(item)}
-                  pagerCurrentPage={this.state.rankingsData.rankingsTableCurrentPage}
-                  pagerCurrentSize={this.state.rankingsData.rankingsTablePageSize}
-                  pagerTotalPages={this.state.rankingsData.rankingsTableTotalPages}
-                  selectAllRows={(current) => RankingsActions.selectAllRows(current)}
-                  selectedTags={this.state.rankingsData.rankingsTableSelectedTags}
-                  selectKeyword={(keyword) => console.log('keyword select', keyword)}
-                  selectRow={(row) => RankingsActions.selectRow(row)}
-                  selectTag={(tag) => RankingsActions.selectTag(tag)}
-                  tableData={this.state.rankingsData.rankingsTableDataFiltered}
-                  tableSettings={this.state.rankingsData.rankingsTableSettings}/>
-              </div>
-              <div style={STYLES.pagerContainer}>
-                <Pager
-                  currentPage={this.state.rankingsData.rankingsTableCurrentPage}
-                  currentSize={this.state.rankingsData.rankingsTablePageSize}
-                  onChange={(values) => RankingsActions.setTableSize(values)}
-                  pageSizes={[20, 50, 100]}
-                  totalPages={this.state.rankingsData.rankingsTableTotalPages}/>
+              <div style={STYLES.savedView}>
+                <DropdownButton
+                  size="standard"
+                  variant="muted"
+                  name="Saved View">
+                  <p>stuff</p>
+                </DropdownButton>
               </div>
             </div>
           </div>
+
+          <div style={STYLES.graphContainer}>
+            <img style={STYLES.graph} src="http://placehold.it/1200x500?text=GRAPH!" />
+          </div>
+
+          <div style={STYLES.tableActions}>
+            <div style={STYLES.tableSelect}>
+              {tableSelectHTML}
+            </div>
+            <div>
+              {tableButtonHtml}
+            </div>
+          </div>
+
+          <div style={STYLES.baseContainer}>
+            <RankingsTable
+              allRowsSelected={this.state.rankingsData.rankingsTableAllRowsSelected}
+              graphKeyword={(item) => RankingsActions.graphKeyword(item)}
+              pagerCurrentPage={this.state.rankingsData.rankingsTableCurrentPage}
+              pagerCurrentSize={this.state.rankingsData.rankingsTablePageSize}
+              pagerTotalPages={this.state.rankingsData.rankingsTableTotalPages}
+              selectAllRows={(current) => RankingsActions.selectAllRows(current)}
+              selectedTags={this.state.rankingsData.rankingsTableSelectedTags}
+              selectKeyword={(keyword) => console.log('keyword select', keyword)}
+              selectRow={(row) => RankingsActions.selectRow(row)}
+              selectTag={(tag) => RankingsActions.selectTag(tag)}
+              tableData={this.state.rankingsData.rankingsTableDataFiltered}
+              tableSettings={this.state.rankingsData.rankingsTableSettings}/>
+          </div>
+          <div style={STYLES.pagerContainer}>
+            <Pager
+              currentPage={this.state.rankingsData.rankingsTableCurrentPage}
+              currentSize={this.state.rankingsData.rankingsTablePageSize}
+              onChange={(values) => RankingsActions.setTableSize(values)}
+              pageSizes={[20, 50, 100]}
+              totalPages={this.state.rankingsData.rankingsTableTotalPages}/>
+          </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }));
 
 const STYLES = {
-  navigationContainer : {
-    position : 'fixed',
-    width    : '100%',
-    zIndex   : '100'
-  },
-  pageContainer : {
-    display       : 'flex',
-    flexDirection : 'column',
-    marginLeft    : gu(40),
-    maxWidth      : '1600px',
-    minWidth      : '1000px',
-    position      : 'relative',
-    top           : gu(13)
-  },
-  sideNavContainer : {
-    position  : 'fixed',
-    top       : gu(13),
-    width     : '200px',
-    zIndex    : '100'
-  },
   contentContainer : {
     padding : gu(4),
     width   : '100%'

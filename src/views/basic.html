@@ -9,7 +9,8 @@
     {% endif %}
 </head>
 <body>
-<div id="react-app"></div>
+  <div id="react-app"></div>
+  {% include 'partials/loader.html' %}
   <script type="text/javascript" src={{SCRIPT_URL}}></script>
   <iframe src="{{LOGIN_URL}}/auth/frame/{{LOGIN_TOKEN}}"
           width=0
@@ -20,6 +21,5 @@
           marginwidth=0
           scrolling=no>
   </iframe>
-  {% include 'partials/loader.html' %}
 </body>
 </html>
