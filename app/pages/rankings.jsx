@@ -11,16 +11,11 @@ import DropdownButton from '../components/buttons/DropdownButton';
 import DateRangePicker from '../components/dateRangePicker/DateRangePicker';
 import Select from '../components/select/Select';
 import Pager from '../components/pager/Pager';
-import AppChooser from '../components/appChooser/AppChooser';
 
 // Composites
-import SideNavigation from '../composites/sideNavigation/SideNavigation';
 import KeywordsModal from '../composites/keywordsModal/KeywordsModal';
 import RankingsTable from '../composites/rankingsTable/RankingsTable';
 import RankingsTableSettingsModal from '../composites/rankingsSettingsModal/RankingsSettingsModal';
-
-// Delphi
-import TMCNavigation from 'delphi/TMC/TMCNavigation';
 
 // TXL
 import Gear from 'txl/icons/icons/Gear';
@@ -56,6 +51,10 @@ module.exports = Radium(React.createClass({
     };
   },
 
+  componentDidMount : function() {
+    this._bootstrapRankingsPage();
+  },
+
   _bootstrapRankingsPage : function () {
     var userDataUnsubscribe;
 
@@ -80,10 +79,6 @@ module.exports = Radium(React.createClass({
     } else {
       afterUserLoaded(UserStore.getExposedData());
     }
-  },
-
-  componentDidMount : function() {
-    this._bootstrapRankingsPage();
   },
 
   tableAddTags : function() {
