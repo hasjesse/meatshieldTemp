@@ -8,10 +8,10 @@ import {gridUnits as gu, combineStyles, colors} from '../components/base/styleHe
 
 // Components
 import Select from '../components/select/Select';
-import AppChooser from '../components/appChooser/AppChooser';
 
 // Composites
 import SideNavigation from '../composites/sideNavigation/SideNavigation';
+import AppChooser from '../composites/appChooser/AppChooser';
 
 // Delphi
 import TMCNavigation from 'delphi/TMC/TMCNavigation';
@@ -48,9 +48,9 @@ module.exports = Radium(React.createClass ({
   },
 
   _bootstrapRankingsPage : function () {
-    var userDataUnsubscribe;
+    let userDataUnsubscribe;
 
-    var afterUserLoaded = (userData, error) => {
+    let afterUserLoaded = (userData, error) => {
 
       if (window.loadingStateMessage) {
         window.loadingStateMessage.set('Loading Apps...');
@@ -70,28 +70,47 @@ module.exports = Radium(React.createClass ({
     }
   },
 
+  'supportDocs' : function() {
+    window.open('http://support.mobileapptracking.com/forums');
+  },
+
+  'searchDocs' : function(searchQuery) {
+    searchQuery = encodeURIComponent(searchQuery.value);
+    window.open(
+      `http://support.mobileapptracking.com/categories/search?utf8=%E2%9C%93&query=${searchQuery}`,
+      'searchSupportDocs'
+    );
+  },
+
   render : function() {
     // TMC header links
-    let productLinks = [
+    var productLinks = [
       {
-        'name' : 'Mobile App Tracking',
+        'name' : 'Attribution Analytics',
         'url'  : `https://login.mobileapptracking.com?redirectUrl=https://platform.mobileapptracking.com/handler/authentication/loginViaSessionToken`
       }
     ];
-
+    console.log(this.state.userData);
     return (
       <div data-component="LayoutWithSubNavigation">
         <div style={STYLES.navigationContainer}>
           <TMCNavigation
+            companyName= {this.state.userData.context.account ? this.state.userData.context.account.name : ''}
+            onAccountSettings = {NOOP}
+            onLogoClick = {NOOP}
+            onLogout={()=> console.log('logout')}
+            onSearchSupportDocs = {this.searchDocs}
+            onSupportDocs = {this.supportDocs}
             productLinks= {productLinks}
-            companyName= {'test'}
-            onLogout={NOOP}/>
+            sessionToken = {this.state.userData.sessionToken}
+            type='app' />
         </div>
         <div style={STYLES.sideNavContainer}>
           <SideNavigation product="TMC"/>
         </div>
         <div style={STYLES.pageContainer}>
-          <AppChooser />
+          <AppChooser
+            appsData={this.state.appsData}/>
           <RouteHandler />
         </div>
       </div>
@@ -103,7 +122,7 @@ const STYLES = {
   navigationContainer : {
     position : 'fixed',
     width    : '100%',
-    zIndex   : '9999'
+    zIndex   : '99'
   },
   pageContainer : {
     display       : 'flex',
@@ -118,7 +137,7 @@ const STYLES = {
     position  : 'fixed',
     top       : gu(13),
     width     : '200px',
-    zIndex    : '9999'
+    zIndex    : '99'
   },
   contentContainer : {
     padding : gu(4),
