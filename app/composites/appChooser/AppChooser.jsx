@@ -1,11 +1,11 @@
 import React from 'react';
 import Radium from 'radium';
 
-import MDHQBase, {autobind, NOOP} from '../base/Base';
-import {gridUnits as gu, combineStyles, colors} from '../base/styleHelpers';
+import MDHQBase, {autobind, NOOP} from '../../components/base/Base';
+import {gridUnits as gu, combineStyles, colors} from '../../components/base/styleHelpers';
 
 // Components
-import Select from '../select/Select';
+import Select from '../../components/select/Select';
 
 const testData = [
   {
@@ -16,13 +16,6 @@ const testData = [
 
 @Radium
 export default class AppChooser extends MDHQBase {
-
-  constructor(...props) {
-    super(...props);
-    this.state = {
-      selectedApp : {}
-    };
-  }
 
   render() {
     return (
