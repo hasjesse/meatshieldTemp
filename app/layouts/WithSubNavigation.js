@@ -90,7 +90,6 @@ module.exports = Radium(React.createClass ({
         'url'  : `https://login.mobileapptracking.com?redirectUrl=https://platform.mobileapptracking.com/handler/authentication/loginViaSessionToken`
       }
     ];
-    console.log(this.state.userData);
     return (
       <div data-component="LayoutWithSubNavigation">
         <div style={STYLES.navigationContainer}>
