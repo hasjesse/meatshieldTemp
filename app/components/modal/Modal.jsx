@@ -11,24 +11,26 @@ module.exports = React.createClass({
   'displayName' : 'MDHQModal',
   'propTypes'   : {
     'blindClick'      : React.PropTypes.func,
-    'cancelText'      : React.PropTypes.string,
     'cancelClick'     : React.PropTypes.func,
+    'cancelText'      : React.PropTypes.string,
     'confirmClick'    : React.PropTypes.func,
     'confirmDisabled' : React.PropTypes.bool,
     'confirmText'     : React.PropTypes.string,
     'showModal'       : React.PropTypes.bool,
+    'tabs'            : React.PropTypes.bool,
     'title'           : React.PropTypes.node
   },
 
   'getDefaultProps' : function() {
     return {
       'blindClick'      : _.noop(),
-      'cancelText'      : 'Cancel',
       'cancelClick'     : _.noop(),
+      'cancelText'      : 'Cancel',
       'confirmClick'    : _.noop(),
       'confirmDisabled' : false,
       'confirmText'     : 'Confirm',
       'showModal'       : false,
+      'tabs'            : false,
       'title'           : ''
     }
   },
@@ -45,7 +47,7 @@ module.exports = React.createClass({
               <h2 className="m-modal-title">{this.props.title}</h2>
               }
             </div>
-            <div className="m-modal-content">
+            <div className={this.props.tabs ? 'm-modal-content-tabs' : "m-modal-content"}>
               {this.props.children}
             </div>
             <div className="m-modal-footer-container">

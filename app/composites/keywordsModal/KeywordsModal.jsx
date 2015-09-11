@@ -138,6 +138,7 @@ module.exports = React.createClass({
           confirmClick={this.submitForm}
           confirmDisabled={this.state.confirmDisabled}
           showModal={this.state.showModal}
+          tabs={true}
           title="Add Keywords">
 
           <section className="m-keywords-modal-tabs">

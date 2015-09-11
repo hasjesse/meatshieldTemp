@@ -1,7 +1,8 @@
 @modal-background-color: #fff;
 @modal-box-shadow-color: rgba(0, 0, 0, 0.2);
 @modal-title-font-size: 28px;
-@blind-background-color: #444;
+@blind-background-color: #0D1017; // Pacific Storm 900
+@modal-border-color: #D9DEE2; // Pacific Storm 100
 
 //@media all and (min-width: 1000px) {}
 
@@ -51,9 +52,13 @@
 }
 
 .m-modal-content {
-  border-bottom: 1px solid gray;
-  border-top: 1px solid gray;
+  border-bottom: 1px solid @modal-border-color;
+  border-top: 1px solid @modal-border-color;
   padding: 0 4rem 4rem 4rem;
+}
+
+.m-modal-content-tabs {
+  padding: 0 0 4rem 0;
 }
 
 .m-modal-footer-container {
