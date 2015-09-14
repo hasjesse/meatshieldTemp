@@ -96,15 +96,15 @@ export default class MDHQRankingsTableRow extends MDHQBase {
             onChange={() => this.props.selectRow()}
             checked={this.props.rowData.checked}
             disabled={false}
-            value={this.props.rowData.search_term}
-            name={this.props.rowData.search_term} />
+            value={this.props.rowData.report.name}
+            name={this.props.rowData.report.name} />
         </div>
         <div style={getCellStyles('reportCell', STYLES)}>
           <div style={STYLES.reportTop}>
             <h3
               onClick={() => this.props.selectKeyword()}
               style={STYLES.reportKeywordTitle}>
-              {this.props.rowData.search_term}
+              {this.props.rowData.report.name}
             </h3>
               <span style={STYLES.reportGraphIcon}>
                 <IconButton
@@ -139,12 +139,12 @@ export default class MDHQRankingsTableRow extends MDHQBase {
           }
           if(col.name === 'Volume' && col.checked){
             return(
-              <div style={getCellStyles('volumeCell', STYLES)} key={index}>{this.props.rowData.volume}</div>
+              <div style={getCellStyles('volumeCell', STYLES)} key={index}>{Math.round(this.props.rowData.volume.volume * 100) / 100}</div>
             );
           }
           if(col.name === 'Est. Installs' && col.checked){
             return(
-              <div style={getCellStyles('installsCell', STYLES)} key={index}>{this.props.rowData.organic_installs.estimated_count}</div>
+              <div style={getCellStyles('installsCell', STYLES)} key={index}>{this.props.rowData.organic_installs.estimated_count ? this.props.rowData.organic_installs.estimated_count : "-"}</div>
             );
           }
           if(col.name === '% of Organic Installs' && col.checked){

@@ -2,99 +2,6 @@ import Reflux from 'reflux';
 import request from 'superagent';
 import prefix from 'superagent-prefix';
 
-// Table sample data
-var dummyData = [
-  {
-    "category": "Games",
-    "difficulty": 60.4,
-    "labels": [
-      {
-        "key": "Lumbersexual",
-        "value": "lumbersexual"
-      }
-    ],
-    "organic_installs": {
-      "estimated_count": 3204,
-      "percentage": 25.5
-    },
-    "search_term": "Top Free iPhone Apps",
-    "rank": 1,
-    "volume": 60.4
-  },
-  {
-    "category": "Games",
-    "difficulty": 80.7,
-    "labels": [
-      {
-        "key": "Sample",
-        "value": "sample"
-      },
-      {
-        "key": "Random Tag",
-        "value": "random_tag"
-      }
-    ],
-    "organic_installs": {
-      "estimated_count": 3204,
-      "percentage": 65.5
-    },
-    "search_term": "Thundercats",
-    "rank": 10,
-    "volume": 47.2
-  },
-  {
-    "category": "Games",
-    "difficulty": 36.4,
-    "labels": [
-      {
-        "key": "Chambray",
-        "value": "chambray"
-      }
-    ],
-    "organic_installs": {
-      "estimated_count": 3204,
-      "percentage": 65.5
-    },
-    "search_term": "YOLO",
-    "rank": 11,
-    "volume": 60.4
-  },
-  {
-    "category": "Games",
-    "difficulty": 30,
-    "labels": [
-      {
-        "key": "gastropub",
-        "value": "gastropub"
-      }
-    ],
-    "organic_installs": {
-      "estimated_count": 3204,
-      "percentage": 34.5
-    },
-    "search_term": "Paleo",
-    "rank": 20,
-    "volume": 60.4
-  },
-  {
-    "category": "Games",
-    "difficulty": 30,
-    "labels": [
-      {
-        "key": "four dollar toast",
-        "value": "four_dollar_toast"
-      }
-    ],
-    "organic_installs": {
-      "estimated_count": 3204,
-      "percentage": 34.5
-    },
-    "search_term": "Paleo",
-    "rank": 72,
-    "volume": 60.4
-  }
-];
-
 var tableSettings = [
   {
     checked : true,
@@ -146,14 +53,19 @@ var Actions = Reflux.createActions({
 });
 
 Actions.loadRankingsTable.listen(function() {
-  //request
-  //  .get('/api/v2/users/apps/22323')
-  //  .use(prefix('http://localhost:9000'))
-  //  .end(function(err, res){
-  //    //console.log(res.body);
-  //  });
-  // TODO: hook up to real data
-  return this.completed(dummyData);
+  // http://localhost:8000/api/v2/users/apps/324684580/rankings/table?mdhq_session_token=389675749c37a075ed2d1fd924b9bf99ed2c2a5e&region[iso_code]=us&platform[id]=1&end_datetime=2015-07-18&start_datetime=2015-01-22
+  let that = this;
+  request
+    .get('/api/v2/users/apps/324684580/rankings/table')
+    .use(prefix('http://localhost:8000'))
+    .query({'mdhq_session_token' : "389675749c37a075ed2d1fd924b9bf99ed2c2a5e"})
+    .query({'region[iso_code]'   : 'us'})
+    .query({'platform[id]'       : '1'})
+    .query({'end_datetime'       : '2015-07-18'})
+    .query({'start_datetime'     : '2015-01-18'})
+    .end(function(err, res){
+      return that.completed(res.body);
+    });
 });
 
 Actions.loadRankingsTableSettings.listen(function() {

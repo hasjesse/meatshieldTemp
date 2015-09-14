@@ -2,6 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import Reflux from 'reflux';
 import Router from 'react-router';
+import _ from 'lodash';
 
 import MDHQBase, {autobind, NOOP} from '../components/base/Base';
 import {gridUnits as gu, combineStyles, colors} from '../components/base/styleHelpers';
@@ -57,21 +58,40 @@ module.exports = Radium(React.createClass({
 
   _bootstrapRankingsPage : function () {
     var userDataUnsubscribe;
+    var rankingsDataUnsubscribe;
 
     var afterUserLoaded = (userData, error) => {
       if (window.loadingStateMessage) {
-        window.loadingStateMessage.set('Loading Top Charts and Keywords...');
+        window.loadingStateMessage.set('Loading Top Charts and Keywords Settings...');
       }
-      RankingsActions.loadRankingsTable();
-      RankingsActions.loadRankingsTableFilters();
+      // load table settings
       RankingsActions.loadRankingsTableSettings();
-    };
 
+    };
+    // listen for table settings to complete
     var rankingData = RankingsStore.listen(() => {
-      if (window.loadingStateMessage) {
+      // load rankings table data
+      if(!_.isEmpty(this.state.rankingsData.rankingsTableSettings)){
+        window.loadingStateMessage.set('Loading Tracked Keywords...');
+        RankingsActions.loadRankingsTable();
+      }
+      // load rankings table filters
+      if(!_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered)){
+        window.loadingStateMessage.set('Loading Keyword Filters...');
+        RankingsActions.loadRankingsTableFilters();
+      }
+      // if all the data is loaded hide loading
+      if (!_.isEmpty(this.state.rankingsData.rankingsTableSettings) && !_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered) && window.loadingStateMessage) {
         window.loadingStateMessage.hide();
       }
-      rankingData();
+
+      console.log('rankings data should show a few times');
+      // keep listening if there is no table data
+      if (_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered)) {
+        rankingsDataUnsubscribe = RankingsStore.listen(rankingData);
+      } else {
+        rankingData();
+      }
     });
 
     if (_.isEmpty(UserStore.getExposedData().context.account)) {
@@ -88,6 +108,7 @@ module.exports = Radium(React.createClass({
   },
 
   render : function() {
+    //console.log('rankings page session: ',this.state.userData.sessionToken);
     // Suggested tags for the add tags select
     let suggestedTags = [
       {label: 'Suggested Tags:', value: 'Suggested Tags:', disabled : true},

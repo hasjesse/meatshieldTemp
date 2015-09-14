@@ -21,12 +21,15 @@ var RankingsStore = Reflux.createStore({
   },
 
   onLoadRankingsTableCompleted : function(res) {
+    console.log('store table data', res);
     res.forEach((term) => {
       // add checked property
       term.checked = false;
 
       // add graphed property
       term.graphed = false;
+
+      if(term.labels === null) term.labels = [];
 
       // sets up labels/tags to work with react select
       // example of new format:
@@ -72,11 +75,11 @@ var RankingsStore = Reflux.createStore({
     let uniqueLabel  = [];
     terms.forEach((term) => {
       // add search terms to the select auto complete (these are unique)
-      if(!_.some(uniqueSearchTerms, {'label' : term.search_term})){
+      if(!_.some(uniqueSearchTerms, {'label' : term.report.name})){
         let param = {};
         // creates label/tag value pair required for the select component
-        param.label = term.search_term;
-        param.value = term.search_term;
+        param.label = term.report.name;
+        param.value = term.report.name;
         uniqueSearchTerms.push(param);
       }
 
@@ -100,7 +103,7 @@ var RankingsStore = Reflux.createStore({
   onSelectRow : function(row) {
     // find row and check the box
     this.rankingsTableDataFiltered.forEach((item) => {
-      if(item.search_term === row.search_term){
+      if(item.report.name === row.report.name){
         item.checked = !row.checked
       }
     });
@@ -192,7 +195,7 @@ var RankingsStore = Reflux.createStore({
         let match = 0;
         this.rankingsTableSelectedTags.forEach((selectedTag) => {
           // if the selected label/tag exists in the search term or in the labels/tags
-          if(selectedTag.label === tableData.search_term || _.some(tableData.labels, selectedTag)){
+          if(selectedTag.label === tableData.report.name || _.some(tableData.labels, selectedTag)){
             match++;
           }
         });
