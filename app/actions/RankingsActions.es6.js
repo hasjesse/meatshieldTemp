@@ -2,7 +2,7 @@ import Reflux from 'reflux';
 import request from 'superagent';
 import prefix from 'superagent-prefix';
 
-var tableSettings = [
+var defaultTableSettings = [
   {
     checked : true,
     label   : 'Current Rank',
@@ -54,7 +54,6 @@ var Actions = Reflux.createActions({
 
 Actions.loadRankingsTable.listen(function() {
   // http://localhost:8000/api/v2/users/apps/324684580/rankings/table?mdhq_session_token=389675749c37a075ed2d1fd924b9bf99ed2c2a5e&region[iso_code]=us&platform[id]=1&end_datetime=2015-07-18&start_datetime=2015-01-22
-  let that = this;
   request
     .get('/api/v2/users/apps/324684580/rankings/table')
     .use(prefix('http://localhost:8000'))
@@ -63,14 +62,14 @@ Actions.loadRankingsTable.listen(function() {
     .query({'platform[id]'       : '1'})
     .query({'end_datetime'       : '2015-07-18'})
     .query({'start_datetime'     : '2015-01-18'})
-    .end(function(err, res){
-      return that.completed(res.body);
+    .end((err, res) => {
+      return this.completed(res.body);
     });
 });
 
 Actions.loadRankingsTableSettings.listen(function() {
   // TODO: hook up to real data
-  return this.completed(tableSettings);
+  return this.completed(defaultTableSettings);
 });
 
 Actions.stopTrackingKeywords.listen(function(keywords) {
