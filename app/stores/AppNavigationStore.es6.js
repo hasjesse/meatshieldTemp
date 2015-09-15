@@ -17,19 +17,25 @@ var AppNavigationStore = Reflux.createStore({
       return;
     }
 
-    apps = {};
-    appLabels = [];
+    let apps = {};
+    let appLabels = [];
     res.body.forEach((item) => {
       app = {
         name: item.name,
         regions: item.regions
       };
-
-      platforms = {};
+      // Setup platform for select
+      let platforms = [];
       item.platform.forEach((platform) => {
-        platforms[platform.name] = platform.id
+        platforms.push({'label': platform.name, 'value': platform.id.toString()});
       });
       app["platforms"] = platforms;
+      // Setup region for select
+      let regions = [];
+      item.regions.forEach((region) => {
+        regions.push({'label': region.name, 'value': region.iso_code});
+      });
+      app["regions"] = regions;
 
       apps[item.source_id] = app;
 

@@ -4,13 +4,18 @@ import prefix from 'superagent-prefix';
 
 var Actions = Reflux.createActions({
   loadAppsWithRegions : {children : ['completed', 'failed']},
+  updateSelectedApp   : {}
 });
 
-Actions.loadAppsWithRegions.listen(function() {
+Actions.loadAppsWithRegions.listen(function(userData) {
   request
     .get('/api/v2/users/apps')
-    .use(prefix('http://localhost:9000'))
-    .end(this.completed);
+    .use(prefix('http://localhost:8000'))
+    .query({
+      'mdhq_session_token' : userData.sessionToken
+    }).end(this.completed);
 });
+
+
 
 module.exports = Actions;

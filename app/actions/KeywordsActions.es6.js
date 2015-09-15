@@ -12,7 +12,7 @@ Actions.postKeywordsForm.listen(function(data) {
   request
     .post('/api/v2/users/apps/123456/user_reports/bulk')
     .send(data)
-    .use(prefix('http://localhost:9000'))
+    .use(prefix('http://localhost:8000'))
     .end(function(err, res){
       if (res.ok) {
         alert('yay got ' + JSON.stringify(res.body));

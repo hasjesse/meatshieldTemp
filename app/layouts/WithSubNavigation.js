@@ -38,8 +38,11 @@ module.exports = Radium(React.createClass ({
 
   getInitialState : function () {
     return {
-      appsData: AppNavigationStore.getExposedData(),
-      userData: UserStore.getExposedData(),
+      appsData         : AppNavigationStore.getExposedData(),
+      selectedApp      : {},
+      selectedPlatform : {},
+      selectedRegion   : {},
+      userData         : UserStore.getExposedData()
     };
   },
 
@@ -49,19 +52,32 @@ module.exports = Radium(React.createClass ({
 
   _bootstrapRankingsPage : function () {
     let userDataUnsubscribe;
-
     let afterUserLoaded = (userData, error) => {
 
       if (window.loadingStateMessage) {
-        window.loadingStateMessage.set('Loading Apps...');
+        window.loadingStateMessage.set('Loading Account Information...');
       }
 
-      AppNavigationActions.loadAppsWithRegions();
+      AppNavigationActions.loadAppsWithRegions(userData);
 
       if (userDataUnsubscribe) {
         userDataUnsubscribe();
       }
     };
+
+    let test = AppNavigationStore.listen(() => {
+      this.setState({
+        selectedApp      : {label: 'Spotify Music', value: '324684580'},
+        selectedPlatform : {label: 'iPhone', value: '1'},
+        selectedRegion   : {label: 'United States', value: 'us'},
+      })
+    })
+
+    if (_.isEmpty(UserStore.getExposedData().context.account)) {
+      userDataUnsubscribe = UserStore.listen(afterUserLoaded);
+    } else {
+      afterUserLoaded(UserStore.getExposedData());
+    }
 
     if (_.isEmpty(UserStore.getExposedData().context.account)) {
       userDataUnsubscribe = UserStore.listen(afterUserLoaded);
@@ -80,6 +96,24 @@ module.exports = Radium(React.createClass ({
       `http://support.mobileapptracking.com/categories/search?utf8=%E2%9C%93&query=${searchQuery}`,
       'searchSupportDocs'
     );
+  },
+
+  selectApp : function(selected) {
+    this.setState({
+      selectedApp : selected.allSelected[0]
+    });
+  },
+
+  selectPlatform : function(selected) {
+    this.setState({
+      selectedPlatform : selected.allSelected[0]
+    });
+  },
+
+  selectRegion : function(selected) {
+    this.setState({
+      selectedRegion : selected.allSelected[0]
+    });
   },
 
   render : function() {
@@ -109,8 +143,17 @@ module.exports = Radium(React.createClass ({
         </div>
         <div style={STYLES.pageContainer}>
           <AppChooser
-            appsData={this.state.appsData}/>
-          <RouteHandler />
+            appsData={this.state.appsData}
+            selectedApp={this.state.selectedApp}
+            selectedRegion={this.state.selectedRegion}
+            selectedPlatform={this.state.selectedPlatform}
+            selectApp={(item) => this.selectApp(item)}
+            selectRegion={(item) => this.selectRegion(item)}
+            selectPlatform={(item) => this.selectPlatform(item)}/>
+          <RouteHandler
+            selectedApp={this.state.selectedApp}
+            selectedRegion={this.state.selectedRegion}
+            selectedPlatform={this.state.selectedPlatform}/>
         </div>
       </div>
     );

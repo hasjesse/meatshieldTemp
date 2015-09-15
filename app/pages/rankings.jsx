@@ -35,6 +35,9 @@ import UserStore from '../stores/UserStore';
 
 module.exports = Radium(React.createClass({
   displayName : 'MDHQRankingsPage',
+
+  // TODO: add props stuff
+
   mixins      : [
     Reflux.connect(RankingsStore, 'rankingsData'),
     Reflux.connect(AppNavigationStore, 'appsData'),
@@ -57,23 +60,27 @@ module.exports = Radium(React.createClass({
   },
 
   _bootstrapRankingsPage : function () {
-    var userDataUnsubscribe;
-    var rankingsDataUnsubscribe;
+    let currentApp = this.props.selectedApp;
+    let currentPlatform = this.props.selectedPlatform;
+    let currentRegion = this.props.selectedRegion;
 
-    var afterUserLoaded = (userData, error) => {
+    let userDataUnsubscribe;
+    let rankingsDataUnsubscribe;
+
+    let afterUserLoaded = (userData, error) => {
       if (window.loadingStateMessage) {
-        window.loadingStateMessage.set('Loading Top Charts and Keywords Settings...');
+        window.loadingStateMessage.set('Loading Top Charts and Keywords...');
       }
       // load table settings
       RankingsActions.loadRankingsTableSettings();
 
     };
     // listen for table settings to complete
-    var rankingData = RankingsStore.listen(() => {
+    let rankingData = RankingsStore.listen(() => {
       // load rankings table data
       if(!_.isEmpty(this.state.rankingsData.rankingsTableSettings)){
         window.loadingStateMessage.set('Loading Tracked Keywords...');
-        RankingsActions.loadRankingsTable();
+        RankingsActions.loadRankingsTable(currentApp, currentPlatform, currentRegion);
       }
       // load rankings table filters
       if(!_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered)){
@@ -84,8 +91,6 @@ module.exports = Radium(React.createClass({
       if (!_.isEmpty(this.state.rankingsData.rankingsTableSettings) && !_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered) && window.loadingStateMessage) {
         window.loadingStateMessage.hide();
       }
-
-      console.log('rankings data should show a few times');
       // keep listening if there is no table data
       if (_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered)) {
         rankingsDataUnsubscribe = RankingsStore.listen(rankingData);
@@ -108,7 +113,6 @@ module.exports = Radium(React.createClass({
   },
 
   render : function() {
-    //console.log('rankings page session: ',this.state.userData.sessionToken);
     // Suggested tags for the add tags select
     let suggestedTags = [
       {label: 'Suggested Tags:', value: 'Suggested Tags:', disabled : true},
