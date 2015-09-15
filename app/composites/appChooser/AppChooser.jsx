@@ -22,7 +22,7 @@ export default class AppChooser extends MDHQBase {
     let app = this.props.appsData.appsWithRegions;
     let regionLabels = [];
     let platformLabels = [];
-    if(!_.isEmpty(this.props.appsData.appsWithRegions)){
+    if(!_.isEmpty(this.props.appsData.appsWithRegions) && !_.isEmpty(this.props.selectedApp)){
       regionLabels = app[this.props.selectedApp.value].regions;
       platformLabels = app[this.props.selectedApp.value].platforms;
     }

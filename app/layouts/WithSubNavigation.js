@@ -52,6 +52,8 @@ module.exports = Radium(React.createClass ({
 
   _bootstrapRankingsPage : function () {
     let userDataUnsubscribe;
+    let appDataUnsubscribe;
+
     let afterUserLoaded = (userData, error) => {
 
       if (window.loadingStateMessage) {
@@ -65,18 +67,18 @@ module.exports = Radium(React.createClass ({
       }
     };
 
-    let test = AppNavigationStore.listen(() => {
-      this.setState({
-        selectedApp      : {label: 'Spotify Music', value: '324684580'},
-        selectedPlatform : {label: 'iPhone', value: '1'},
-        selectedRegion   : {label: 'United States', value: 'us'},
-      })
-    })
+    let afterAppsLoad = () => {
+      AppNavigationActions.setSelectedApp();
 
-    if (_.isEmpty(UserStore.getExposedData().context.account)) {
-      userDataUnsubscribe = UserStore.listen(afterUserLoaded);
+      if (appDataUnsubscribe) {
+        appDataUnsubscribe();
+      }
+    };
+
+    if (_.isEmpty(AppNavigationStore.getExposedData().appsWithRegions)) {
+      appDataUnsubscribe = AppNavigationStore.listen(afterAppsLoad);
     } else {
-      afterUserLoaded(UserStore.getExposedData());
+      afterAppsLoad(AppNavigationStore.getExposedData().appsWithRegions);
     }
 
     if (_.isEmpty(UserStore.getExposedData().context.account)) {
@@ -144,16 +146,16 @@ module.exports = Radium(React.createClass ({
         <div style={STYLES.pageContainer}>
           <AppChooser
             appsData={this.state.appsData}
-            selectedApp={this.state.selectedApp}
-            selectedRegion={this.state.selectedRegion}
-            selectedPlatform={this.state.selectedPlatform}
+            selectedApp={this.state.appsData.navSelections.selectedApp}
+            selectedRegion={this.state.appsData.navSelections.selectedRegion}
+            selectedPlatform={this.state.appsData.navSelections.selectedPlatform}
             selectApp={(item) => this.selectApp(item)}
             selectRegion={(item) => this.selectRegion(item)}
             selectPlatform={(item) => this.selectPlatform(item)}/>
           <RouteHandler
-            selectedApp={this.state.selectedApp}
-            selectedRegion={this.state.selectedRegion}
-            selectedPlatform={this.state.selectedPlatform}/>
+            selectedApp={this.state.appsData.navSelections.selectedApp}
+            selectedRegion={this.state.appsData.navSelections.selectedRegion}
+            selectedPlatform={this.state.appsData.navSelections.selectedPlatform}/>
         </div>
       </div>
     );

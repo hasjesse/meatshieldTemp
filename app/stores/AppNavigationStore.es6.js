@@ -8,7 +8,8 @@ var AppNavigationStore = Reflux.createStore({
 
   init : function() {
     this.appsWithRegions = [];
-    this.appLabels = [];
+    this.appLabels       = [];
+    this.navSelections   = {};
   },
 
   onLoadAppsWithRegionsCompleted : function(err, res) {
@@ -47,6 +48,15 @@ var AppNavigationStore = Reflux.createStore({
     this.emitChange();
   },
 
+  setSelectedApp : function() {
+    this.navSelections = {
+      selectedApp      : {label: 'Spotify Music', value: '324684580'},
+      selectedPlatform : {label: 'iPhone', value: '1'},
+      selectedRegion   : {label: 'United States', value: 'us'},
+    };
+    this.emitChange();
+  },
+
   emitChange : function(action) {
     this.trigger(this.getExposedData(), action);
   },
@@ -55,6 +65,7 @@ var AppNavigationStore = Reflux.createStore({
     return {
       appsWithRegions: this.appsWithRegions,
       appLabels: this.appLabels,
+      navSelections : this.navSelections
     };
   }
 });

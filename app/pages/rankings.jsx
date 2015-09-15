@@ -80,7 +80,7 @@ module.exports = Radium(React.createClass({
       // load rankings table data
       if(!_.isEmpty(this.state.rankingsData.rankingsTableSettings)){
         window.loadingStateMessage.set('Loading Tracked Keywords...');
-        RankingsActions.loadRankingsTable(currentApp, currentPlatform, currentRegion);
+        RankingsActions.loadRankingsTable(this.state.userData, currentApp, currentPlatform, currentRegion);
       }
       // load rankings table filters
       if(!_.isEmpty(this.state.rankingsData.rankingsTableDataFiltered)){

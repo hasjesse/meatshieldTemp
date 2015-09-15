@@ -4,6 +4,7 @@ import prefix from 'superagent-prefix';
 
 var Actions = Reflux.createActions({
   loadAppsWithRegions : {children : ['completed', 'failed']},
+  setSelectedApp      : {},
   updateSelectedApp   : {}
 });
 

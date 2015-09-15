@@ -52,12 +52,12 @@ var Actions = Reflux.createActions({
   stopTrackingKeywords      : {children : ['completed', 'failed']}
 });
 
-Actions.loadRankingsTable.listen(function() {
+Actions.loadRankingsTable.listen(function(userData, currentApp, currentPlatform, currentRegion) {
   // http://localhost:8000/api/v2/users/apps/324684580/rankings/table?mdhq_session_token=389675749c37a075ed2d1fd924b9bf99ed2c2a5e&region[iso_code]=us&platform[id]=1&end_datetime=2015-07-18&start_datetime=2015-01-22
   request
     .get('/api/v2/users/apps/324684580/rankings/table')
     .use(prefix('http://localhost:8000'))
-    .query({'mdhq_session_token' : "389675749c37a075ed2d1fd924b9bf99ed2c2a5e"})
+    .query({'mdhq_session_token' : userData.sessionToken})
     .query({'region[iso_code]'   : 'us'})
     .query({'platform[id]'       : '1'})
     .query({'end_datetime'       : '2015-07-18'})
