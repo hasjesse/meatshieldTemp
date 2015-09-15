@@ -82,13 +82,10 @@ module.exports = React.createClass({
 
   '_populateRegions' : function(obj) {
     var app = this.props.appsData.appsWithRegions[obj.value];
-    var labels = app.regions.map((region) => {
-      return { 'label': region.name, 'value': region.iso_code }
-    });
 
     this.setState({
       'selectedApp' : obj.value,
-      'regionLabels' : labels
+      'regionLabels' : app.regions
     });
   },
 
